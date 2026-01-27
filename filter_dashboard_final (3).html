@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Maintenance Optimization Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            padding: 24px;
+        }
+        .container { max-width: 1920px; margin: 0 auto; }
+        
+        .header {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 { font-size: 28px; color: #1a202c; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: #718096; }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--color);
+        }
+        .kpi-label { font-size: 12px; color: #718096; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .kpi-value { font-size: 32px; font-weight: 700; color: #1a202c; margin-bottom: 4px; }
+        .kpi-desc { font-size: 13px; color: #718096; }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .card.full-width { grid-column: 1 / -1; }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title { font-size: 18px; font-weight: 700; color: #1a202c; }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-success { background: #c6f6d5; color: #22543d; }
+        .badge-info { background: #bee3f8; color: #2c5282; }
+        .badge-warning { background: #feebc8; color: #7c2d12; }
+        .card-body { padding: 24px; position: relative; }
+        .chart-container { width: 100%; height: 450px; position: relative; }
+        
+        .tooltip {
+            position: fixed;
+            background: #1a202c;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            min-width: 200px;
+            max-width: 350px;
+        }
+        .tooltip.active { opacity: 1; }
+        .tooltip-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+        }
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            font-size: 12px;
+        }
+        .tooltip-label { color: #cbd5e0; }
+        .tooltip-value { font-weight: 600; color: white; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #f7fafc; position: sticky; top: 0; }
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f7fafc; }
+        .risk-low { background: #c6f6d5; color: #22543d; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+        .risk-medium { background: #feebc8; color: #7c2d12; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+        .savings-positive { color: #38a169; font-weight: 600; }
+
+        @media (max-width: 1200px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Filter Maintenance Optimization Dashboard</h1>
+            <div class="subtitle">Multi-plant filter replacement scheduling and cost savings analysis</div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card" style="--color: #4299e1;">
+                <div class="kpi-label">Total Annual Filters</div>
+                <div class="kpi-value">11,102</div>
+                <div class="kpi-desc">Across 5 manufacturing plants</div>
+            </div>
+            <div class="kpi-card" style="--color: #48bb78;">
+                <div class="kpi-label">Implemented Savings</div>
+                <div class="kpi-value">₹26.11L</div>
+                <div class="kpi-desc">From 3 implemented opportunities</div>
+            </div>
+            <div class="kpi-card" style="--color: #9f7aea;">
+                <div class="kpi-label">Current Annual Spend</div>
+                <div class="kpi-value">₹7.77Cr</div>
+                <div class="kpi-desc">Average ₹7,000 per filter</div>
+            </div>
+            <div class="kpi-card" style="--color: #ed8936;">
+                <div class="kpi-label">Implementation Progress</div>
+                <div class="kpi-value">3/11</div>
+                <div class="kpi-desc">27% of opportunities deployed</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <!-- Frequency Heatmap -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Multi-Plant Replacement Frequency</div>
+                    <span class="badge badge-info">Frequency Analysis</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="heatmapCanvas"></canvas>
+                        <div id="heatmapTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Top Savings Opportunities</div>
+                    <span class="badge badge-success">Annual Impact</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="savingsCanvas"></canvas>
+                        <div id="savingsTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Site Comparison -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Plant Efficiency Benchmark</div>
+                    <span class="badge badge-warning">Annual Spend</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="siteComparisonCanvas"></canvas>
+                        <div id="siteTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Filter Category Breakdown</div>
+                    <span class="badge badge-info">Quantity Distribution</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="categoryCanvas"></canvas>
+                        <div id="categoryTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opportunities Table -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Filter Optimization Opportunities</div>
+                <span class="badge badge-success">11 Opportunities Identified</span>
+            </div>
+            <div class="card-body">
+                <table id="opportunitiesTable"></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA WITH PLANT NAMES
+        const filterData = {
+            sites: ['Plant 1', 'Plant 2', 'Plant 3', 'Plant 4', 'Plant 5'],
+            
+            filters: [
+                { type: 'Compressed Air 0.2μ', plant1: 100, plant2: 150, plant3: 13, plant4: 29, plant5: 170, frequency: 1, to_be_frequency: 2 },
+                { type: 'Vacuum HEPA H=122', plant1: 75, plant2: 60, plant3: 0, plant4: 19, plant5: 67, frequency: 1, to_be_frequency: 2 },
+                { type: 'Dust Collector', plant1: 40, plant2: 20, plant3: 3, plant4: 12, plant5: 60, frequency: 5, to_be_frequency: 6 },
+                { type: 'HVAC Process HEPA', plant1: 90, plant2: 602, plant3: 26, plant4: 310, plant5: 384, frequency: 4, to_be_frequency: 5 },
+                { type: 'HVAC Process Geal Seal', plant1: 0, plant2: 308, plant3: 0, plant4: 0, plant5: 0, frequency: 4, to_be_frequency: 5 },
+                { type: 'HVAC Process Super HEPA', plant1: 35, plant2: 100, plant3: 10, plant4: 0, plant5: 0, frequency: 4, to_be_frequency: 5 },
+                { type: 'HVAC Process F-9', plant1: 8, plant2: 10, plant3: 0, plant4: 0, plant5: 0, frequency: 4, to_be_frequency: 5 },
+                { type: 'HVAC Non-Process HEPA', plant1: 60, plant2: 172, plant3: 14, plant4: 170, plant5: 618, frequency: 5, to_be_frequency: 6 },
+                { type: 'HVAC Process 3μ/10μ', plant1: 200, plant2: 1708, plant3: 55, plant4: 440, plant5: 458, frequency: 5, to_be_frequency: 6 },
+                { type: 'HVAC Non-Process 3/10/20μ', plant1: 225, plant2: 1832, plant3: 70, plant4: 675, plant5: 595, frequency: 5, to_be_frequency: 6 },
+                { type: 'HVAC Return 20μ', plant1: 100, plant2: 267, plant3: 15, plant4: 100, plant5: 326, frequency: 3, to_be_frequency: 5 },
+                { type: 'N2 Generator Housing', plant1: 10, plant2: 0, plant3: 2, plant4: 4, plant5: 7, frequency: 2, to_be_frequency: 0 }
+            ],
+
+            opportunities: [
+                { priority: 1, name: 'Compressed Air 0.2μ', currentFreq: '1 year', optimizedFreq: '2 years', filtersSaved: 231, savings: 1617000, risk: 'Low', status: 'Implemented', implemented: true },
+                { priority: 2, name: 'HVAC Non-Process 3/10/20μ', currentFreq: '5 years', optimizedFreq: '6 years', filtersSaved: 113.23, savings: 792633, risk: 'Low', status: 'Implemented', implemented: true },
+                { priority: 3, name: 'HVAC Non-Process HEPA', currentFreq: '5 years', optimizedFreq: '6 years', filtersSaved: 28.8, savings: 201600, risk: 'Low', status: 'Implemented', implemented: true },
+                { priority: 4, name: 'HVAC Process 3μ/10μ', currentFreq: '5 years', optimizedFreq: '6 years', filtersSaved: 476.83, savings: 3337833, risk: 'Medium', status: 'Pending', implemented: false },
+                { priority: 5, name: 'HVAC Process HEPA', currentFreq: '4 years', optimizedFreq: '5 years', filtersSaved: 215.2, savings: 1506400, risk: 'Medium', status: 'Pending', implemented: false },
+                { priority: 6, name: 'Vacuum HEPA H=122', currentFreq: '1 year', optimizedFreq: '2 years', filtersSaved: 110.5, savings: 773500, risk: 'Low', status: 'Pending', implemented: false },
+                { priority: 7, name: 'HVAC Return 20μ', currentFreq: '3 years', optimizedFreq: '5 years', filtersSaved: 96.4, savings: 674800, risk: 'Low', status: 'Pending', implemented: false },
+                { priority: 8, name: 'HVAC Process Geal Seal', currentFreq: '4 years', optimizedFreq: '5 years', filtersSaved: 61.6, savings: 431200, risk: 'Medium', status: 'Pending', implemented: false },
+                { priority: 9, name: 'HVAC Process Super HEPA', currentFreq: '4 years', optimizedFreq: '5 years', filtersSaved: 55, savings: 385000, risk: 'Medium', status: 'Pending', implemented: false },
+                { priority: 10, name: 'Dust Collector', currentFreq: '5 years', optimizedFreq: '6 years', filtersSaved: 22.5, savings: 157500, risk: 'Low', status: 'Pending', implemented: false },
+                { priority: 11, name: 'HVAC Process F-9', currentFreq: '4 years', optimizedFreq: '5 years', filtersSaved: 3.6, savings: 25200, risk: 'Low', status: 'Pending', implemented: false }
+            ]
+        };
+
+        function showTooltip(tooltipEl, x, y, content) {
+            tooltipEl.innerHTML = content;
+            tooltipEl.classList.add('active');
+            
+            tooltipEl.style.display = 'block';
+            const tooltipRect = tooltipEl.getBoundingClientRect();
+            const tooltipWidth = tooltipRect.width;
+            const tooltipHeight = tooltipRect.height;
+            
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            let left = x + 15;
+            let top = y + 15;
+            
+            if (left + tooltipWidth > viewportWidth - 20) {
+                left = x - tooltipWidth - 15;
+            }
+            
+            if (top + tooltipHeight > viewportHeight - 20) {
+                top = y - tooltipHeight - 15;
+            }
+            
+            if (left < 20) {
+                left = 20;
+            }
+            
+            if (top < 20) {
+                top = y + 15;
+                if (top + tooltipHeight > viewportHeight - 20) {
+                    top = viewportHeight - tooltipHeight - 20;
+                }
+            }
+            
+            tooltipEl.style.left = left + 'px';
+            tooltipEl.style.top = top + 'px';
+        }
+
+        function hideTooltip(tooltipEl) {
+            tooltipEl.classList.remove('active');
+        }
+
+        // FREQUENCY HEATMAP (PLANT-BY-PLANT)
+        function drawHeatmap() {
+            const canvas = document.getElementById('heatmapCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const cellWidth = Math.floor((width - 250) / 5);
+            const cellHeight = 40;
+            const startX = 240;
+            const startY = 50;
+            
+            // Draw plant headers
+            ctx.font = 'bold 13px Arial';
+            ctx.fillStyle = '#1a202c';
+            ctx.textAlign = 'center';
+            filterData.sites.forEach((site, i) => {
+                ctx.fillText(site, startX + i * cellWidth + cellWidth/2, 30);
+            });
+            
+            const cellData = [];
+            
+            // Draw rows
+            filterData.filters.forEach((filter, rowIdx) => {
+                ctx.font = '11px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.textAlign = 'left';
+                ctx.fillText(filter.type.substring(0, 28), 5, startY + rowIdx * cellHeight + 23);
+                
+                ['plant1', 'plant2', 'plant3', 'plant4', 'plant5'].forEach((plant, colIdx) => {
+                    const quantity = filter[plant];
+                    const frequency = filter.frequency;
+                    const x = startX + colIdx * cellWidth;
+                    const y = startY + rowIdx * cellHeight;
+                    
+                    // Color based on frequency
+                    let color;
+                    if (frequency === 0 || !quantity) {
+                        color = '#f7fafc';
+                    } else if (frequency < 1) {
+                        color = '#E54E3E';  // Red - very frequent
+                    } else if (frequency === 1) {
+                        color = '#ED8936';  // Orange - frequent
+                    } else if (frequency === 2) {
+                        color = '#F59E0B';  // Amber - semi-frequent
+                    } else if (frequency === 3) {
+                        color = '#A8AA59';  // Yellow-green - moderate
+                    } else if (frequency === 4) {
+                        color = '#68BB78';  // Green - less frequent
+                    } else {
+                        color = '#48BB78';  // Dark green - infrequent
+                    }
+                    
+                    ctx.fillStyle = color;
+                    ctx.fillRect(x + 3, y + 3, cellWidth - 6, cellHeight - 6);
+                    
+                    // Display frequency
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillStyle = frequency <= 2 ? 'white' : '#2d3748';
+                    ctx.textAlign = 'center';
+                    
+                    let displayText;
+                    if (!quantity) {
+                        displayText = '-';
+                    } else if (frequency < 1) {
+                        displayText = `${Math.round(frequency * 12)}mo`;
+                    } else {
+                        displayText = `${frequency}yr`;
+                    }
+                    
+                    ctx.fillText(displayText, x + cellWidth/2, y + cellHeight/2 + 6);
+                    
+                    cellData.push({
+                        x, y, width: cellWidth, height: cellHeight,
+                        filter, plant: filterData.sites[colIdx], quantity
+                    });
+                });
+            });
+            
+            const tooltip = document.getElementById('heatmapTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const cell of cellData) {
+                    if (mouseX >= cell.x && mouseX <= cell.x + cell.width &&
+                        mouseY >= cell.y && mouseY <= cell.y + cell.height) {
+                        
+                        const annualUsage = cell.filter.frequency > 0 ? Math.round(cell.quantity / cell.filter.frequency) : 0;
+                        
+                        const content = `
+                            <div class="tooltip-title">${cell.filter.type}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Plant:</span>
+                                <span class="tooltip-value">${cell.plant}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Quantity:</span>
+                                <span class="tooltip-value">${cell.quantity} filters</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Frequency:</span>
+                                <span class="tooltip-value">${cell.filter.frequency} year(s)</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Annual Usage:</span>
+                                <span class="tooltip-value">${annualUsage} filters/year</span>
+                            </div>
+                            ${cell.filter.to_be_frequency > 0 ? `<div class="tooltip-row">
+                                <span class="tooltip-label">Optimized Freq:</span>
+                                <span class="tooltip-value">${cell.filter.to_be_frequency} year(s)</span>
+                            </div>` : ''}
+                        `;
+                        showTooltip(tooltip, e.clientX, e.clientY, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // SAVINGS CHART
+        function drawSavingsChart() {
+            const canvas = document.getElementById('savingsCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const margin = { top: 50, right: 40, bottom: 100, left: 80 };
+            const chartWidth = canvas.width - margin.left - margin.right;
+            const chartHeight = canvas.height - margin.top - margin.bottom;
+            
+            const maxValue = Math.max(...filterData.opportunities.map(o => o.savings));
+            const topOpps = filterData.opportunities.slice(0, 5);
+            const barWidth = chartWidth / topOpps.length * 0.7;
+            const spacing = chartWidth / topOpps.length;
+            
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const y = margin.top + chartHeight - (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(canvas.width - margin.right, y);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/100000).toFixed(1)}L`, margin.left - 10, y + 4);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(canvas.width - margin.right, margin.top + chartHeight);
+            ctx.stroke();
+            
+            const barData = [];
+            topOpps.forEach((opp, i) => {
+                const barHeight = (opp.savings / maxValue) * chartHeight;
+                const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+                const y = margin.top + chartHeight - barHeight;
+                
+                ctx.fillStyle = opp.implemented ? '#48bb78' : '#3182ce';
+                ctx.fillRect(x, y, barWidth, barHeight);
+                barData.push({ x, y, width: barWidth, height: barHeight, opp });
+                
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = opp.implemented ? '#48bb78' : '#3182ce';
+                ctx.textAlign = 'center';
+                ctx.fillText(`₹${(opp.savings/100000).toFixed(1)}L`, x + barWidth/2, y - 8);
+                
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#718096';
+                ctx.fillText(`${Math.round(opp.filtersSaved)} filters`, x + barWidth/2, y - 22);
+                
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#2d3748';
+                const words = opp.name.split(' ');
+                words.forEach((word, wi) => {
+                    ctx.fillText(word, x + barWidth/2, margin.top + chartHeight + 20 + wi * 14);
+                });
+            });
+            
+            const tooltip = document.getElementById('savingsTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        const content = `
+                            <div class="tooltip-title">${bar.opp.name}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Annual Savings:</span>
+                                <span class="tooltip-value">₹${(bar.opp.savings/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Filters Saved:</span>
+                                <span class="tooltip-value">${bar.opp.filtersSaved.toFixed(1)}/year</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Current Frequency:</span>
+                                <span class="tooltip-value">${bar.opp.currentFreq}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Optimized Frequency:</span>
+                                <span class="tooltip-value">${bar.opp.optimizedFreq}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Status:</span>
+                                <span class="tooltip-value">${bar.opp.status}</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX, e.clientY, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // PLANT COMPARISON
+        function drawSiteComparison() {
+            const canvas = document.getElementById('siteComparisonCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const margin = { top: 40, right: 40, bottom: 80, left: 80 };
+            const chartWidth = canvas.width - margin.left - margin.right;
+            const chartHeight = canvas.height - margin.top - margin.bottom;
+            
+            const siteData = filterData.sites.map((site, idx) => {
+                const siteKey = `plant${idx + 1}`;
+                const total = filterData.filters.reduce((sum, f) => sum + (f[siteKey] || 0), 0);
+                return { site, total, spend: total * 7000 };
+            });
+            
+            const maxValue = Math.max(...siteData.map(s => s.spend));
+            const barWidth = chartWidth / siteData.length * 0.65;
+            const spacing = chartWidth / siteData.length;
+            const colors = ['#3182ce', '#805ad5', '#48bb78', '#ed8936', '#e53e3e'];
+            
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const y = margin.top + chartHeight - (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(canvas.width - margin.right, y);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/10000000).toFixed(1)}Cr`, margin.left - 10, y + 4);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(canvas.width - margin.right, margin.top + chartHeight);
+            ctx.stroke();
+            
+            const barData = [];
+            siteData.forEach((data, i) => {
+                const barHeight = (data.spend / maxValue) * chartHeight;
+                const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+                const y = margin.top + chartHeight - barHeight;
+                
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, y, barWidth, barHeight);
+                barData.push({ x, y, width: barWidth, height: barHeight, data });
+                
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = colors[i];
+                ctx.textAlign = 'center';
+                ctx.fillText(`₹${(data.spend/10000000).toFixed(2)}Cr`, x + barWidth/2, y - 8);
+                
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#718096';
+                ctx.fillText(`${data.total} filters`, x + barWidth/2, y - 22);
+                
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(data.site, x + barWidth/2, margin.top + chartHeight + 25);
+            });
+            
+            const tooltip = document.getElementById('siteTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        const content = `
+                            <div class="tooltip-title">${bar.data.site}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Total Filters:</span>
+                                <span class="tooltip-value">${bar.data.total}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Annual Spend:</span>
+                                <span class="tooltip-value">₹${(bar.data.spend/10000000).toFixed(2)}Cr</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Avg. Cost/Filter:</span>
+                                <span class="tooltip-value">₹${(bar.data.spend/bar.data.total).toFixed(0)}</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX, e.clientY, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // CATEGORY DONUT
+        function drawCategoryChart() {
+            const canvas = document.getElementById('categoryCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const categories = {};
+            filterData.filters.forEach(filter => {
+                const category = filter.type.includes('HVAC') ? 
+                    (filter.type.includes('Process') && !filter.type.includes('Non') ? 'HVAC Process' : 'HVAC Non-Process') :
+                    filter.type.includes('Compressed') ? 'Compressed Air' :
+                    filter.type.includes('Vacuum') ? 'Vacuum' : 'Other';
+                
+                const total = filter.plant1 + filter.plant2 + filter.plant3 + filter.plant4 + filter.plant5;
+                categories[category] = (categories[category] || 0) + total;
+            });
+            
+            const data = Object.entries(categories).map(([name, value]) => ({ name, value }));
+            const total = data.reduce((sum, d) => sum + d.value, 0);
+            const colors = ['#E54E3E', '#ED8936', '#805AD5', '#48BB78', '#3182CE'];
+            
+            const centerX = canvas.width / 2 - 100;
+            const centerY = canvas.height / 2;
+            const radius = 130;
+            const innerRadius = 80;
+            
+            const sliceData = [];
+            let startAngle = -Math.PI / 2;
+            
+            data.forEach((item, i) => {
+                const sliceAngle = (item.value / total) * Math.PI * 2;
+                const endAngle = startAngle + sliceAngle;
+                
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                
+                sliceData.push({ startAngle, endAngle, centerX, centerY, radius, innerRadius, cat: item });
+                startAngle = endAngle;
+            });
+            
+            ctx.font = 'bold 24px Arial';
+            ctx.fillStyle = '#1a202c';
+            ctx.textAlign = 'center';
+            ctx.fillText(total.toLocaleString(), centerX, centerY - 5);
+            ctx.font = '12px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.fillText('Total Filters', centerX, centerY + 15);
+            
+            let legendY = 80;
+            data.forEach((item, i) => {
+                const legendX = centerX + radius + 60;
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(legendX, legendY, 16, 16);
+                ctx.font = '13px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.textAlign = 'left';
+                ctx.fillText(item.name, legendX + 24, legendY + 12);
+                ctx.font = 'bold 13px Arial';
+                ctx.fillStyle = '#718096';
+                ctx.fillText(`${item.value} (${(item.value/total*100).toFixed(1)}%)`, legendX + 24, legendY + 28);
+                legendY += 55;
+            });
+            
+            const tooltip = document.getElementById('categoryTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                const dx = mouseX - centerX;
+                const dy = mouseY - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+                
+                let found = false;
+                if (distance >= innerRadius && distance <= radius) {
+                    for (const slice of sliceData) {
+                        let normalizedAngle = angle;
+                        if (normalizedAngle < slice.startAngle) normalizedAngle += Math.PI * 2;
+                        
+                        if (normalizedAngle >= slice.startAngle && normalizedAngle <= slice.endAngle) {
+                            const content = `
+                                <div class="tooltip-title">${slice.cat.name}</div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Quantity:</span>
+                                    <span class="tooltip-value">${slice.cat.value} filters</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Percentage:</span>
+                                    <span class="tooltip-value">${(slice.cat.value/total*100).toFixed(1)}%</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Annual Value:</span>
+                                    <span class="tooltip-value">₹${(slice.cat.value * 7000 / 100000).toFixed(2)}L</span>
+                                </div>
+                            `;
+                            showTooltip(tooltip, e.clientX, e.clientY, content);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        function populateTables() {
+            document.getElementById('opportunitiesTable').innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Priority</th>
+                        <th>Filter Type</th>
+                        <th>Current Freq</th>
+                        <th>Optimized Freq</th>
+                        <th>Filters Saved</th>
+                        <th>Annual Savings</th>
+                        <th>Risk</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${filterData.opportunities.map(opp => `
+                        <tr>
+                            <td><strong>${opp.priority}</strong></td>
+                            <td>${opp.name}</td>
+                            <td>${opp.currentFreq}</td>
+                            <td><strong>${opp.optimizedFreq}</strong></td>
+                            <td>${opp.filtersSaved.toFixed(1)}</td>
+                            <td class="savings-positive"><strong>₹${(opp.savings/100000).toFixed(2)}L</strong></td>
+                            <td><span class="risk-${opp.risk.toLowerCase()}">${opp.risk}</span></td>
+                            <td><span class="badge badge-${opp.implemented ? 'success' : 'info'}">${opp.status}</span></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+        }
+
+        window.addEventListener('load', () => {
+            drawHeatmap();
+            drawSavingsChart();
+            drawSiteComparison();
+            drawCategoryChart();
+            populateTables();
+        });
+
+        window.addEventListener('resize', () => {
+            drawHeatmap();
+            drawSavingsChart();
+            drawSiteComparison();
+            drawCategoryChart();
+        });
+    </script>
+</body>
+</html>
