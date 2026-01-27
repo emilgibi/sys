@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassware Procurement Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            padding: 24px;
+        }
+        .container { max-width: 1920px; margin: 0 auto; }
+        
+        .header {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 { font-size: 28px; color: #1a202c; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: #718096; }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--color);
+        }
+        .kpi-label { font-size: 12px; color: #718096; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .kpi-value { font-size: 32px; font-weight: 700; color: #1a202c; margin-bottom: 4px; }
+        .kpi-desc { font-size: 13px; color: #718096; }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .card.full-width { grid-column: 1 / -1; }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title { font-size: 18px; font-weight: 700; color: #1a202c; }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-success { background: #c6f6d5; color: #22543d; }
+        .badge-info { background: #bee3f8; color: #2c5282; }
+        .badge-warning { background: #feebc8; color: #7c2d12; }
+        .card-body { padding: 24px; position: relative; }
+        .chart-container { width: 100%; height: 450px; position: relative; }
+        
+        .tooltip {
+            position: absolute;
+            background: #1a202c;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            min-width: 200px;
+        }
+        .tooltip.active { opacity: 1; }
+        .tooltip-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+        }
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            font-size: 12px;
+        }
+        .tooltip-label { color: #cbd5e0; }
+        .tooltip-value { font-weight: 600; color: white; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #f7fafc; position: sticky; top: 0; }
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f7fafc; }
+        .vendor-best { background: #c6f6d5; color: #22543d; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+
+        @media (max-width: 1200px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Glassware Procurement Dashboard</h1>
+            <div class="subtitle">Annual Rate Contract (ARC) Proposal 2024-25 - Vendor Comparison & Analysis</div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card" style="--color: #4299e1;">
+                <div class="kpi-label">Total Items</div>
+                <div class="kpi-value">180</div>
+                <div class="kpi-desc">Glassware items for procurement</div>
+            </div>
+            <div class="kpi-card" style="--color: #48bb78;">
+                <div class="kpi-label">Best Vendor</div>
+                <div class="kpi-value">J-SIL</div>
+                <div class="kpi-desc">74.1% savings vs alternatives</div>
+            </div>
+            <div class="kpi-card" style="--color: #9f7aea;">
+                <div class="kpi-label">Total Potential Savings</div>
+                <div class="kpi-value">₹56.32L</div>
+                <div class="kpi-desc">By choosing J-SIL vendor</div>
+            </div>
+            <div class="kpi-card" style="--color: #ed8936;">
+                <div class="kpi-label">Recommended Purchase</div>
+                <div class="kpi-value">₹76.04L</div>
+                <div class="kpi-desc">From J-SIL at best rates</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <!-- Vendor Comparison -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Vendor Cost Comparison</div>
+                    <span class="badge badge-warning">Purchase Value</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="vendorCanvas"></canvas>
+                        <div id="vendorTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Comparison -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Savings by Vendor</div>
+                    <span class="badge badge-success">Potential Savings</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="savingsCanvas"></canvas>
+                        <div id="savingsTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Category Breakdown</div>
+                    <span class="badge badge-info">Item Distribution</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="categoryCanvas"></canvas>
+                        <div id="categoryTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Items by Value -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Top 10 Items by Value</div>
+                    <span class="badge badge-info">High Value Items</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="topItemsCanvas"></canvas>
+                        <div id="topItemsTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Items Table -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+                <div class="card-title">Top 20 High-Value Items</div>
+                <span class="badge badge-success">Sorted by Total Value</span>
+            </div>
+            <div class="card-body">
+                <table id="topItemsTable"></table>
+            </div>
+        </div>
+
+        <!-- Vendor Details Table -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Vendor Comparison Summary</div>
+                <span class="badge badge-info">Complete Analysis</span>
+            </div>
+            <div class="card-body">
+                <table id="vendorTable"></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA FROM EXCEL FILE
+        const glasswareData = {
+            vendors: [
+                { name: 'Tharmo', purchase: 9089278.56, savings: 4146369.44, savingsPct: 45.6, items: 180 },
+                { name: 'J-SIL', purchase: 7603604.45, savings: 5632043.55, savingsPct: 74.1, items: 180 },
+                { name: 'Dodal', purchase: 13235648.00, savings: 500000.00, savingsPct: 3.8, items: 180 }
+            ],
+            
+            categories: [
+                { name: 'Volumetric Flask', count: 56, value: 5529765.94 },
+                { name: 'Pipette', count: 38, value: 394463.89 },
+                { name: 'Other', count: 45, value: 960908.24 },
+                { name: 'Cylinder', count: 25, value: 468341.77 },
+                { name: 'Beaker', count: 14, value: 87454.03 },
+                { name: 'Burette', count: 2, value: 4387.5 }
+            ],
+            
+            topItems: [
+                { name: 'VOLUMETRIC FLASK 100 ML - CLASS A', catNo: '5647016', qty: 1499, minRate: 260, vendor: 'Santosh', value: 389740, savings: 554630 },
+                { name: 'VOLUMETRIC FLASK A CLASS CLEAR USP 100ML', catNo: '5647016D', qty: 1000, minRate: 357.5, vendor: 'Global Pharma', value: 357500, savings: 272500 },
+                { name: 'VOLUMETRIC FLASK A CLASS CLEAR USP 10ML', catNo: '5647006D', qty: 1000, minRate: 331.5, vendor: 'Santosh', value: 331500, savings: 223500 },
+                { name: 'VOLUMETRIC FLASK 1000 ML', catNo: '5647032', qty: 249, minRate: 1053, vendor: 'Santosh', value: 262197, savings: 391653 },
+                { name: 'VOLUMETRIC FLASK 250ML - CLASS A', catNo: '5647021', qty: 498, minRate: 394, vendor: 'Santosh', value: 196212, savings: 268092 },
+                { name: 'VOLUMETRIC FLASK 50ML - CLASS A', catNo: '5647012', qty: 998, minRate: 195, vendor: 'Santosh', value: 194610, savings: 190390 },
+                { name: 'VOLUMETRIC FLASK 500ML - CLASS A', catNo: '5647028', qty: 249, minRate: 715, vendor: 'Santosh', value: 178035, savings: 244965 },
+                { name: 'VOLUMETRIC FLASK A CLASS CLEAR USP 20ML', catNo: '5647008D', qty: 500, minRate: 357.5, vendor: 'Santosh', value: 178750, savings: 117250 },
+                { name: 'VOLUMETRIC FLASK A CLASS CLEAR USP 50ML', catNo: '5647012D', qty: 500, minRate: 351, vendor: 'Santosh', value: 175500, savings: 144500 },
+                { name: 'VOLUMETRIC FLASK 200ML - CLASS A', catNo: '5647020', qty: 249, minRate: 694, vendor: 'Santosh', value: 172806, savings: 224694 }
+            ]
+        };
+
+        function showTooltip(tooltipEl, x, y, content) {
+            tooltipEl.innerHTML = content;
+            tooltipEl.style.left = x + 15 + 'px';
+            tooltipEl.style.top = y + 15 + 'px';
+            tooltipEl.classList.add('active');
+        }
+
+        function hideTooltip(tooltipEl) {
+            tooltipEl.classList.remove('active');
+        }
+
+        // VENDOR COMPARISON CHART
+        function drawVendorChart() {
+            const canvas = document.getElementById('vendorCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const margin = { top: 40, right: 40, bottom: 80, left: 80 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            const maxValue = Math.max(...glasswareData.vendors.map(v => v.purchase));
+            const barWidth = chartWidth / glasswareData.vendors.length * 0.65;
+            const spacing = chartWidth / glasswareData.vendors.length;
+            const colors = ['#ed8936', '#48bb78', '#805ad5'];
+            
+            // Y-axis
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const y = margin.top + chartHeight - (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(width - margin.right, y);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/10000000).toFixed(1)}Cr`, margin.left - 10, y + 4);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(width - margin.right, margin.top + chartHeight);
+            ctx.stroke();
+            
+            // Store bar positions
+            const barData = [];
+            
+            glasswareData.vendors.forEach((vendor, i) => {
+                const barHeight = (vendor.purchase / maxValue) * chartHeight;
+                const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+                const y = margin.top + chartHeight - barHeight;
+                
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                barData.push({ x, y, width: barWidth, height: barHeight, vendor });
+                
+                // Value label
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = colors[i];
+                ctx.textAlign = 'center';
+                ctx.fillText(`₹${(vendor.purchase/10000000).toFixed(2)}Cr`, x + barWidth/2, y - 8);
+                
+                // Vendor name
+                ctx.font = 'bold 13px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(vendor.name, x + barWidth/2, margin.top + chartHeight + 25);
+                
+                // Savings percentage
+                ctx.font = '11px Arial';
+                ctx.fillStyle = '#718096';
+                ctx.fillText(`${vendor.savingsPct}% savings`, x + barWidth/2, margin.top + chartHeight + 42);
+            });
+            
+            // Add hover
+            const tooltip = document.getElementById('vendorTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        
+                        const content = `
+                            <div class="tooltip-title">${bar.vendor.name}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Purchase Value:</span>
+                                <span class="tooltip-value">₹${(bar.vendor.purchase/10000000).toFixed(2)}Cr</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Savings:</span>
+                                <span class="tooltip-value">₹${(bar.vendor.savings/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Savings %:</span>
+                                <span class="tooltip-value">${bar.vendor.savingsPct}%</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Items Quoted:</span>
+                                <span class="tooltip-value">${bar.vendor.items}</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX - rect.left, e.clientY - rect.top, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // SAVINGS COMPARISON CHART
+        function drawSavingsChart() {
+            const canvas = document.getElementById('savingsCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const margin = { top: 40, right: 40, bottom: 80, left: 80 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            const maxValue = Math.max(...glasswareData.vendors.map(v => v.savings));
+            const barWidth = chartWidth / glasswareData.vendors.length * 0.65;
+            const spacing = chartWidth / glasswareData.vendors.length;
+            const colors = ['#ed8936', '#48bb78', '#805ad5'];
+            
+            // Y-axis
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const y = margin.top + chartHeight - (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(width - margin.right, y);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/100000).toFixed(1)}L`, margin.left - 10, y + 4);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(width - margin.right, margin.top + chartHeight);
+            ctx.stroke();
+            
+            const barData = [];
+            
+            glasswareData.vendors.forEach((vendor, i) => {
+                const barHeight = (vendor.savings / maxValue) * chartHeight;
+                const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+                const y = margin.top + chartHeight - barHeight;
+                
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                barData.push({ x, y, width: barWidth, height: barHeight, vendor });
+                
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = colors[i];
+                ctx.textAlign = 'center';
+                ctx.fillText(`₹${(vendor.savings/100000).toFixed(1)}L`, x + barWidth/2, y - 8);
+                
+                ctx.font = 'bold 13px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(vendor.name, x + barWidth/2, margin.top + chartHeight + 25);
+            });
+            
+            const tooltip = document.getElementById('savingsTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        
+                        const avgSavingsPerItem = bar.vendor.savings / bar.vendor.items;
+                        const content = `
+                            <div class="tooltip-title">${bar.vendor.name} Savings</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Total Savings:</span>
+                                <span class="tooltip-value">₹${(bar.vendor.savings/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Savings %:</span>
+                                <span class="tooltip-value">${bar.vendor.savingsPct}%</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Avg/Item:</span>
+                                <span class="tooltip-value">₹${avgSavingsPerItem.toFixed(0)}</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX - rect.left, e.clientY - rect.top, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // CATEGORY DONUT CHART
+        function drawCategoryChart() {
+            const canvas = document.getElementById('categoryCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const total = glasswareData.categories.reduce((sum, c) => sum + c.count, 0);
+            const colors = ['#e53e3e', '#ed8936', '#805ad5', '#48bb78', '#3182ce', '#9f7aea'];
+            
+            const centerX = width / 2 - 100;
+            const centerY = height / 2;
+            const radius = 130;
+            const innerRadius = 80;
+            
+            const sliceData = [];
+            let startAngle = -Math.PI / 2;
+            
+            glasswareData.categories.forEach((cat, i) => {
+                const sliceAngle = (cat.count / total) * Math.PI * 2;
+                const endAngle = startAngle + sliceAngle;
+                
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
+                ctx.closePath();
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                
+                sliceData.push({
+                    startAngle, endAngle,
+                    centerX, centerY, radius, innerRadius,
+                    cat: cat
+                });
+                
+                startAngle = endAngle;
+            });
+            
+            // Center text
+            ctx.font = 'bold 24px Arial';
+            ctx.fillStyle = '#1a202c';
+            ctx.textAlign = 'center';
+            ctx.fillText(total.toString(), centerX, centerY - 5);
+            ctx.font = '12px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.fillText('Total Items', centerX, centerY + 15);
+            
+            // Legend
+            let legendY = 80;
+            glasswareData.categories.forEach((cat, i) => {
+                const legendX = centerX + radius + 60;
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(legendX, legendY, 16, 16);
+                ctx.font = '13px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.textAlign = 'left';
+                ctx.fillText(cat.name, legendX + 24, legendY + 12);
+                ctx.font = 'bold 13px Arial';
+                ctx.fillStyle = '#718096';
+                ctx.fillText(`${cat.count} (${(cat.count/total*100).toFixed(1)}%)`, legendX + 24, legendY + 28);
+                legendY += 55;
+            });
+            
+            const tooltip = document.getElementById('categoryTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                const dx = mouseX - centerX;
+                const dy = mouseY - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+                
+                let found = false;
+                if (distance >= innerRadius && distance <= radius) {
+                    for (const slice of sliceData) {
+                        let normalizedAngle = angle;
+                        if (normalizedAngle < slice.startAngle) {
+                            normalizedAngle += Math.PI * 2;
+                        }
+                        
+                        if (normalizedAngle >= slice.startAngle && normalizedAngle <= slice.endAngle) {
+                            const content = `
+                                <div class="tooltip-title">${slice.cat.name}</div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Items:</span>
+                                    <span class="tooltip-value">${slice.cat.count}</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Percentage:</span>
+                                    <span class="tooltip-value">${(slice.cat.count/total*100).toFixed(1)}%</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Total Value:</span>
+                                    <span class="tooltip-value">₹${(slice.cat.value/100000).toFixed(2)}L</span>
+                                </div>
+                            `;
+                            showTooltip(tooltip, e.clientX - rect.left, e.clientY - rect.top, content);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // TOP ITEMS CHART
+        function drawTopItemsChart() {
+            const canvas = document.getElementById('topItemsCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const margin = { top: 40, right: 40, bottom: 150, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            const items = glasswareData.topItems.slice(0, 10);
+            const maxValue = Math.max(...items.map(i => i.value));
+            const barHeight = chartHeight / items.length * 0.7;
+            const spacing = chartHeight / items.length;
+            
+            // Y-axis
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const x = margin.left + (chartWidth / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(x, margin.top);
+                ctx.lineTo(x, height - margin.bottom);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/100000).toFixed(0)}L`, x, margin.top - 10);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, height - margin.bottom);
+            ctx.lineTo(width - margin.right, height - margin.bottom);
+            ctx.stroke();
+            
+            const barData = [];
+            
+            items.forEach((item, i) => {
+                const barWidth = (item.value / maxValue) * chartWidth;
+                const x = margin.left;
+                const y = margin.top + i * spacing + (spacing - barHeight) / 2;
+                
+                ctx.fillStyle = '#3182ce';
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                barData.push({ x, y, width: barWidth, height: barHeight, item });
+                
+                // Item name
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.textAlign = 'right';
+                const shortName = item.name.substring(0, 25) + (item.name.length > 25 ? '...' : '');
+                ctx.fillText(shortName, margin.left - 10, y + barHeight/2 + 4);
+                
+                // Value
+                ctx.font = 'bold 11px Arial';
+                ctx.fillStyle = '#3182ce';
+                ctx.textAlign = 'left';
+                ctx.fillText(`₹${(item.value/100000).toFixed(1)}L`, x + barWidth + 5, y + barHeight/2 + 4);
+            });
+            
+            const tooltip = document.getElementById('topItemsTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        
+                        const content = `
+                            <div class="tooltip-title">${bar.item.name}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Cat No:</span>
+                                <span class="tooltip-value">${bar.item.catNo}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Quantity:</span>
+                                <span class="tooltip-value">${bar.item.qty}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Min Rate:</span>
+                                <span class="tooltip-value">₹${bar.item.minRate}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Total Value:</span>
+                                <span class="tooltip-value">₹${(bar.item.value/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Best Vendor:</span>
+                                <span class="tooltip-value">${bar.item.vendor}</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Potential Savings:</span>
+                                <span class="tooltip-value">₹${(bar.item.savings/100000).toFixed(2)}L</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX - rect.left, e.clientY - rect.top, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // POPULATE TABLES
+        function populateTables() {
+            // Top Items Table
+            document.getElementById('topItemsTable').innerHTML = `
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item Name</th>
+                        <th>Cat No.</th>
+                        <th>Quantity</th>
+                        <th>Min Rate</th>
+                        <th>Total Value</th>
+                        <th>Best Vendor</th>
+                        <th>Savings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${glasswareData.topItems.map((item, i) => `
+                        <tr>
+                            <td><strong>${i + 1}</strong></td>
+                            <td>${item.name}</td>
+                            <td>${item.catNo}</td>
+                            <td>${item.qty}</td>
+                            <td>₹${item.minRate}</td>
+                            <td><strong>₹${(item.value/100000).toFixed(2)}L</strong></td>
+                            <td><span class="vendor-best">${item.vendor}</span></td>
+                            <td style="color: #38a169; font-weight: 600;">₹${(item.savings/100000).toFixed(2)}L</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            // Vendor Table
+            document.getElementById('vendorTable').innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Vendor</th>
+                        <th>Purchase Value</th>
+                        <th>Potential Savings</th>
+                        <th>Savings %</th>
+                        <th>Items Quoted</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${glasswareData.vendors.map(vendor => `
+                        <tr>
+                            <td><strong>${vendor.name}</strong></td>
+                            <td>₹${(vendor.purchase/10000000).toFixed(2)}Cr</td>
+                            <td style="color: #38a169; font-weight: 600;">₹${(vendor.savings/100000).toFixed(2)}L</td>
+                            <td><strong>${vendor.savingsPct}%</strong></td>
+                            <td>${vendor.items}</td>
+                            <td>${vendor.name === 'J-SIL' ? '<span class="vendor-best">Recommended</span>' : '-'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+        }
+
+        // Initialize Dashboard
+        window.addEventListener('load', () => {
+            drawVendorChart();
+            drawSavingsChart();
+            drawCategoryChart();
+            drawTopItemsChart();
+            populateTables();
+        });
+
+        window.addEventListener('resize', () => {
+            drawVendorChart();
+            drawSavingsChart();
+            drawCategoryChart();
+            drawTopItemsChart();
+        });
+    </script>
+</body>
+</html>
