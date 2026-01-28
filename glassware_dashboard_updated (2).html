@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassware Procurement Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            padding: 24px;
+        }
+        .container { max-width: 1920px; margin: 0 auto; }
+        
+        .header {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 { font-size: 28px; color: #1a202c; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: #718096; }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--color);
+        }
+        .kpi-label { font-size: 12px; color: #718096; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .kpi-value { font-size: 32px; font-weight: 700; color: #1a202c; margin-bottom: 4px; }
+        .kpi-desc { font-size: 13px; color: #718096; }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .card.full-width { grid-column: 1 / -1; }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title { font-size: 18px; font-weight: 700; color: #1a202c; }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-success { background: #c6f6d5; color: #22543d; }
+        .badge-info { background: #bee3f8; color: #2c5282; }
+        .badge-warning { background: #feebc8; color: #7c2d12; }
+        .badge-danger { background: #fed7d7; color: #742a2a; }
+        .card-body { padding: 24px; position: relative; }
+        .chart-container { width: 100%; height: 450px; position: relative; }
+        
+        .tooltip {
+            position: fixed;
+            background: #1a202c;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            min-width: 200px;
+            max-width: 350px;
+        }
+        .tooltip.active { opacity: 1; }
+        .tooltip-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 6px;
+        }
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+            font-size: 12px;
+        }
+        .tooltip-label { color: #cbd5e0; }
+        .tooltip-value { font-weight: 600; color: white; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead { background: #f7fafc; position: sticky; top: 0; }
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #2d3748;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        tr:hover { background: #f7fafc; }
+        .vendor-best { background: #c6f6d5; color: #22543d; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 12px; }
+        .rate-cell { text-align: right; font-weight: 600; }
+
+        @media (max-width: 1200px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Glassware Procurement Dashboard</h1>
+            <div class="subtitle">Annual Rate Contract (ARC) Proposal 2024-25 - Vendor Comparison & Missed Savings Analysis</div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card" style="--color: #4299e1;">
+                <div class="kpi-label">Total Items</div>
+                <div class="kpi-value">180</div>
+                <div class="kpi-desc">Glassware items for procurement</div>
+            </div>
+            <div class="kpi-card" style="--color: #48bb78;">
+                <div class="kpi-label">Actual Savings Realized</div>
+                <div class="kpi-value">₹26.15L</div>
+                <div class="kpi-desc">73.4% of potential captured</div>
+            </div>
+            <div class="kpi-card" style="--color: #ed8936;">
+                <div class="kpi-label">Missed Savings</div>
+                <div class="kpi-value">₹9.46L</div>
+                <div class="kpi-desc">26.6% opportunity lost</div>
+            </div>
+            <div class="kpi-card" style="--color: #9f7aea;">
+                <div class="kpi-label">Total Potential</div>
+                <div class="kpi-value">₹35.60L</div>
+                <div class="kpi-desc">Actual + Missed savings</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+            <!-- Savings by Vendor -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Savings by Vendor (Annualized by Potential)</div>
+                    <span class="badge badge-success">Potential Savings</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="savingsCanvas"></canvas>
+                        <div id="savingsTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Missed Savings by Plant -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Missed Savings by Plant</div>
+                    <span class="badge badge-danger">Site Analysis</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="plantCanvas"></canvas>
+                        <div id="plantTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 10 Missed Savings Items -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Top 10 Items - Highest Missed Savings</div>
+                    <span class="badge badge-warning">Critical Items</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="topMissedCanvas"></canvas>
+                        <div id="topMissedTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendor Rate Distribution Donut -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Category-wise Missed Savings Distribution</div>
+                    <span class="badge badge-info">Category Breakdown</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="categoryDonutCanvas"></canvas>
+                        <div id="categoryDonutTooltip" class="tooltip"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Items Table with Vendor Comparison -->
+        <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+                <div class="card-title">Top 20 High-Value Items - Vendor Rate Comparison</div>
+                <span class="badge badge-success">Price Analysis</span>
+            </div>
+            <div class="card-body">
+                <table id="topItemsTable"></table>
+            </div>
+        </div>
+
+        <!-- Vendor Details Table -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Vendor Comparison Summary</div>
+                <span class="badge badge-info">Complete Analysis</span>
+            </div>
+            <div class="card-body">
+                <table id="vendorTable"></table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GLASSWARE DATA WITH RENAMED VENDORS
+        const glasswareData = {
+            vendors: [
+                { name: 'THERMO', purchase: 9089278.56, savings: 4146369.44, savingsPct: 45.6 },
+                { name: 'J-SIL', purchase: 7603604.45, savings: 5632043.55, savingsPct: 74.1 },
+                { name: 'BOROSIL', purchase: 13235648.00, savings: 500000.00, savingsPct: 3.8 }
+            ],
+            
+            // Sample top items with vendor rates from Missed Savings Excel
+            topItems: [
+                { name: 'GLASS BEAKER 500ML', jsil: 97.5, borosil: 105, thermo: 112.13, minRate: 97.5, vendor: 'J-SIL' },
+                { name: 'GLASS BEAKERS 100ML', jsil: 50.7, borosil: 60, thermo: 58.31, minRate: 50.7, vendor: 'J-SIL' },
+                { name: 'GRADUATED PIPETTE 0.1 ML', jsil: 247, borosil: 390, thermo: 284.05, minRate: 247, vendor: 'J-SIL' },
+                { name: 'MEASURING CYLINDER 500 ML', jsil: 975, borosil: 1239, thermo: 1121.25, minRate: 975, vendor: 'J-SIL' },
+                { name: 'MEASURING CYLINDER-25ML', jsil: 357.5, borosil: 438, thermo: 411.13, minRate: 357.5, vendor: 'J-SIL' },
+                { name: 'MEASURING CYLINDER-50 ML', jsil: 422.5, borosil: 531, thermo: 485.88, minRate: 422.5, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC PIPETTE 10ML CLASS A', jsil: 253.5, borosil: 348, thermo: 291.53, minRate: 253.5, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC PIPETTE 1ML CLASS A', jsil: 188.5, borosil: 249, thermo: 216.78, minRate: 188.5, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC PIPETTE 20ML CLASS A', jsil: 299, borosil: 456, thermo: 343.85, minRate: 299, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC PIPETTE 2ML CLASS A', jsil: 195, borosil: 279, thermo: 224.25, minRate: 195, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC PIPETTE 3ML CLASS A', jsil: 227.5, borosil: 294, thermo: 261.63, minRate: 227.5, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC PIPETTE 5ML CLASS A', jsil: 221, borosil: 297, thermo: 254.15, minRate: 221, vendor: 'J-SIL' },
+                { name: 'WEIGHING SCOOP, CAP 1ML', jsil: 104, borosil: 162, thermo: 119.6, minRate: 104, vendor: 'J-SIL' },
+                { name: 'WEIGHING SCOOP, CAP 2ML', jsil: 104, borosil: 162, thermo: 119.6, minRate: 104, vendor: 'J-SIL' },
+                { name: 'WEIGHING SCOOP, CAP 3ML', jsil: 104, borosil: 132, thermo: 119.6, minRate: 104, vendor: 'J-SIL' },
+                { name: 'WEIGHING SCOOP, CAP 6ML', jsil: 123.5, borosil: 174, thermo: 142.03, minRate: 123.5, vendor: 'J-SIL' },
+                { name: 'WEIGHING SCOOP, CAP 10ML', jsil: 130, borosil: 198, thermo: 149.5, minRate: 130, vendor: 'J-SIL' },
+                { name: 'PIPETTES TRANSFER VOLUMETRIC 50ML', jsil: 396.5, borosil: 555, thermo: 455.98, minRate: 396.5, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC FLASK 100 ML', jsil: 260, borosil: 356, thermo: 298.65, minRate: 260, vendor: 'J-SIL' },
+                { name: 'VOLUMETRIC FLASK 10 ML', jsil: 162.5, borosil: 204, thermo: 186.69, minRate: 162.5, vendor: 'J-SIL' }
+            ]
+        };
+
+        // MISSED SAVINGS DATA
+        const missedSavingsData = {
+            categories: [
+                { name: 'Flasks', totalSaving: 1208300, missed: 625200, count: 62 },
+                { name: 'Pipettes', totalSaving: 179000, missed: 271000, count: 29 },
+                { name: 'Other', totalSaving: 1880000, missed: 4500, count: 38 },
+                { name: 'Beakers', totalSaving: 8900, missed: 41000, count: 15 },
+                { name: 'Scoops', totalSaving: 125000, missed: 4000, count: 7 },
+                { name: 'Cylinders', totalSaving: 159200, missed: 0, count: 15 }
+            ],
+            
+            topMissed: [
+                { name: 'VOLUMETRIC FLASK 2000 ML', missed: 69825 },
+                { name: 'VOLUMETRIC FLASK 1000 ML', missed: 35370 },
+                { name: 'FILTRATION FLASK 2 LTR', missed: 34440 },
+                { name: 'BEAKER 10 LTR', missed: 30000 },
+                { name: 'VOLUMATRIC FLASK 500ML - AMBER', missed: 29700 },
+                { name: 'VOLUMETRIC FLASK 500ML', missed: 25875 },
+                { name: 'VOLUMETRIC FLASK 500ML', missed: 25875 },
+                { name: 'VOLUMETRIC FLASK 250 ML - AMBER', missed: 25200 },
+                { name: 'VOLUMETRIC FLASK 200ML AMBER', missed: 23232 },
+                { name: 'VOLUMETRIC FLASK 200ML AMBER', missed: 23232 }
+            ],
+            
+            plants: [
+                { name: 'Plant 1', originalName: 'PTN', totalSaving: 1271273.6, missed: 735960 },
+                { name: 'Plant 2', originalName: 'CTGN', totalSaving: 1672241, missed: 209757 },
+                { name: 'Plant 3', originalName: 'CKT', totalSaving: 63323, missed: 0 },
+                { name: 'Plant 4', originalName: 'WLJ-API', totalSaving: 97807, missed: 0 },
+                { name: 'Plant 5', originalName: 'GWHT', totalSaving: 117735, missed: 0 },
+                { name: 'Plant 6', originalName: 'PTMR', totalSaving: 337925, missed: 0 }
+            ]
+        };
+
+        function showTooltip(tooltipEl, x, y, content) {
+            tooltipEl.innerHTML = content;
+            tooltipEl.classList.add('active');
+            
+            // Force a reflow to get accurate dimensions
+            tooltipEl.style.display = 'block';
+            const tooltipRect = tooltipEl.getBoundingClientRect();
+            const tooltipWidth = tooltipRect.width;
+            const tooltipHeight = tooltipRect.height;
+            
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            let left = x + 15;
+            let top = y + 15;
+            
+            // Adjust if going off right edge
+            if (left + tooltipWidth > viewportWidth - 20) {
+                left = x - tooltipWidth - 15;
+            }
+            
+            // Adjust if going off bottom edge
+            if (top + tooltipHeight > viewportHeight - 20) {
+                top = y - tooltipHeight - 15;
+            }
+            
+            // Ensure not off left edge
+            if (left < 20) {
+                left = 20;
+            }
+            
+            // Ensure not off top edge
+            if (top < 20) {
+                top = y + 15;
+                // If still off top, place below cursor
+                if (top + tooltipHeight > viewportHeight - 20) {
+                    top = viewportHeight - tooltipHeight - 20;
+                }
+            }
+            
+            tooltipEl.style.left = left + 'px';
+            tooltipEl.style.top = top + 'px';
+        }
+
+        function hideTooltip(tooltipEl) {
+            tooltipEl.classList.remove('active');
+        }
+
+        // SAVINGS BY VENDOR CHART
+        function drawSavingsChart() {
+            const canvas = document.getElementById('savingsCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const margin = { top: 40, right: 40, bottom: 80, left: 80 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            const maxValue = Math.max(...glasswareData.vendors.map(v => v.savings));
+            const barWidth = chartWidth / glasswareData.vendors.length * 0.65;
+            const spacing = chartWidth / glasswareData.vendors.length;
+            const colors = ['#ed8936', '#48bb78', '#805ad5'];
+            
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const y = margin.top + chartHeight - (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(width - margin.right, y);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/100000).toFixed(1)}L`, margin.left - 10, y + 4);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(width - margin.right, margin.top + chartHeight);
+            ctx.stroke();
+            
+            const barData = [];
+            glasswareData.vendors.forEach((vendor, i) => {
+                const barHeight = (vendor.savings / maxValue) * chartHeight;
+                const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+                const y = margin.top + chartHeight - barHeight;
+                
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, y, barWidth, barHeight);
+                barData.push({ x, y, width: barWidth, height: barHeight, vendor });
+                
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = colors[i];
+                ctx.textAlign = 'center';
+                ctx.fillText(`₹${(vendor.savings/100000).toFixed(1)}L`, x + barWidth/2, y - 8);
+                
+                ctx.font = 'bold 13px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(vendor.name, x + barWidth/2, margin.top + chartHeight + 25);
+                
+                ctx.font = '11px Arial';
+                ctx.fillStyle = '#718096';
+                ctx.fillText(`${vendor.savingsPct}% savings`, x + barWidth/2, margin.top + chartHeight + 42);
+            });
+            
+            const tooltip = document.getElementById('savingsTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        const content = `
+                            <div class="tooltip-title">${bar.vendor.name}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Total Savings:</span>
+                                <span class="tooltip-value">₹${(bar.vendor.savings/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Savings %:</span>
+                                <span class="tooltip-value">${bar.vendor.savingsPct}%</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Purchase Value:</span>
+                                <span class="tooltip-value">₹${(bar.vendor.purchase/10000000).toFixed(2)}Cr</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX, e.clientY, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // MISSED SAVINGS BY PLANT
+        function drawPlantChart() {
+            const canvas = document.getElementById('plantCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const margin = { top: 40, right: 40, bottom: 80, left: 80 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            const maxValue = Math.max(...missedSavingsData.plants.map(p => p.missed));
+            const barWidth = chartWidth / missedSavingsData.plants.length * 0.7;
+            const spacing = chartWidth / missedSavingsData.plants.length;
+            const colors = ['#e53e3e', '#ed8936', '#48bb78', '#4299e1', '#9f7aea', '#805ad5'];
+            
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.textAlign = 'right';
+            
+            for (let i = 0; i <= 5; i++) {
+                const value = (maxValue / 5) * i;
+                const y = margin.top + chartHeight - (chartHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, y);
+                ctx.lineTo(width - margin.right, y);
+                ctx.stroke();
+                ctx.fillText(`₹${(value/100000).toFixed(1)}L`, margin.left - 10, y + 4);
+            }
+            
+            ctx.strokeStyle = '#718096';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + chartHeight);
+            ctx.lineTo(width - margin.right, margin.top + chartHeight);
+            ctx.stroke();
+            
+            const barData = [];
+            missedSavingsData.plants.forEach((plant, i) => {
+                const barHeight = maxValue > 0 ? (plant.missed / maxValue) * chartHeight : 0;
+                const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+                const y = margin.top + chartHeight - barHeight;
+                
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(x, y, barWidth, Math.max(barHeight, 2));
+                barData.push({ x, y, width: barWidth, height: Math.max(barHeight, chartHeight), plant });
+                
+                if (plant.missed > 0) {
+                    ctx.font = 'bold 11px Arial';
+                    ctx.fillStyle = colors[i];
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`₹${(plant.missed/100000).toFixed(1)}L`, x + barWidth/2, y - 8);
+                }
+                
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.fillText(plant.name, x + barWidth/2, margin.top + chartHeight + 25);
+            });
+            
+            const tooltip = document.getElementById('plantTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= margin.top && mouseY <= margin.top + chartHeight) {
+                        const pct = bar.plant.totalSaving > 0 ? (bar.plant.missed / bar.plant.totalSaving * 100).toFixed(1) : 0;
+                        const content = `
+                            <div class="tooltip-title">${bar.plant.name}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Missed Savings:</span>
+                                <span class="tooltip-value">₹${(bar.plant.missed/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Total Potential:</span>
+                                <span class="tooltip-value">₹${(bar.plant.totalSaving/100000).toFixed(2)}L</span>
+                            </div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">% Missed:</span>
+                                <span class="tooltip-value">${pct}%</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX, e.clientY, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // TOP 10 MISSED SAVINGS ITEMS
+        function drawTopMissedChart() {
+            const canvas = document.getElementById('topMissedCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const margin = { top: 40, right: 40, bottom: 40, left: 280 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+            
+            const maxValue = Math.max(...missedSavingsData.topMissed.map(i => i.missed));
+            const barHeight = chartHeight / missedSavingsData.topMissed.length * 0.7;
+            const spacing = chartHeight / missedSavingsData.topMissed.length;
+            
+            const barData = [];
+            missedSavingsData.topMissed.forEach((item, i) => {
+                const barWidth = (item.missed / maxValue) * chartWidth;
+                const x = margin.left;
+                const y = margin.top + i * spacing + (spacing - barHeight) / 2;
+                
+                ctx.fillStyle = '#ed8936';
+                ctx.fillRect(x, y, barWidth, barHeight);
+                barData.push({ x, y, width: barWidth, height: barHeight, item });
+                
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.textAlign = 'right';
+                const shortName = item.name.substring(0, 32);
+                ctx.fillText(shortName, margin.left - 10, y + barHeight/2 + 4);
+                
+                ctx.font = 'bold 11px Arial';
+                ctx.fillStyle = '#ed8936';
+                ctx.textAlign = 'left';
+                ctx.fillText(`₹${(item.missed/1000).toFixed(1)}K`, x + barWidth + 5, y + barHeight/2 + 4);
+            });
+            
+            const tooltip = document.getElementById('topMissedTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                let found = false;
+                for (const bar of barData) {
+                    if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                        mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                        const content = `
+                            <div class="tooltip-title">${bar.item.name}</div>
+                            <div class="tooltip-row">
+                                <span class="tooltip-label">Missed Savings:</span>
+                                <span class="tooltip-value">₹${(bar.item.missed/1000).toFixed(1)}K</span>
+                            </div>
+                        `;
+                        showTooltip(tooltip, e.clientX, e.clientY, content);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // CATEGORY-WISE MISSED SAVINGS DONUT
+        function drawCategoryDonutChart() {
+            const canvas = document.getElementById('categoryDonutCanvas');
+            const container = canvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            ctx.clearRect(0, 0, width, height);
+            
+            const total = missedSavingsData.categories.reduce((sum, c) => sum + c.missed, 0);
+            const colors = ['#e53e3e', '#ed8936', '#f59e0b', '#805ad5', '#48bb78', '#4299e1'];
+            
+            const centerX = width / 2 - 80;
+            const centerY = height / 2;
+            const radius = 120;
+            const innerRadius = 75;
+            
+            const sliceData = [];
+            let startAngle = -Math.PI / 2;
+            
+            missedSavingsData.categories.forEach((cat, i) => {
+                if (cat.missed > 0) {
+                    const sliceAngle = (cat.missed / total) * Math.PI * 2;
+                    const endAngle = startAngle + sliceAngle;
+                    
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                    ctx.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
+                    ctx.closePath();
+                    ctx.fillStyle = colors[i];
+                    ctx.fill();
+                    
+                    sliceData.push({
+                        startAngle, endAngle,
+                        centerX, centerY, radius, innerRadius,
+                        cat: cat
+                    });
+                    
+                    startAngle = endAngle;
+                }
+            });
+            
+            ctx.font = 'bold 20px Arial';
+            ctx.fillStyle = '#1a202c';
+            ctx.textAlign = 'center';
+            ctx.fillText(`₹${(total/1000).toFixed(0)}K`, centerX, centerY - 5);
+            ctx.font = '11px Arial';
+            ctx.fillStyle = '#718096';
+            ctx.fillText('Total Missed', centerX, centerY + 12);
+            
+            let legendY = 100;
+            missedSavingsData.categories.filter(c => c.missed > 0).forEach((cat, i) => {
+                const legendX = centerX + radius + 50;
+                ctx.fillStyle = colors[i];
+                ctx.fillRect(legendX, legendY, 14, 14);
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#2d3748';
+                ctx.textAlign = 'left';
+                ctx.fillText(cat.name, legendX + 20, legendY + 10);
+                ctx.font = 'bold 11px Arial';
+                ctx.fillStyle = '#718096';
+                const pct = (cat.missed/total*100).toFixed(1);
+                ctx.fillText(`₹${(cat.missed/1000).toFixed(0)}K (${pct}%)`, legendX + 20, legendY + 24);
+                legendY += 45;
+            });
+            
+            const tooltip = document.getElementById('categoryDonutTooltip');
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+                
+                const dx = mouseX - centerX;
+                const dy = mouseY - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+                
+                let found = false;
+                if (distance >= innerRadius && distance <= radius) {
+                    for (const slice of sliceData) {
+                        let normalizedAngle = angle;
+                        if (normalizedAngle < slice.startAngle) {
+                            normalizedAngle += Math.PI * 2;
+                        }
+                        
+                        if (normalizedAngle >= slice.startAngle && normalizedAngle <= slice.endAngle) {
+                            const pct = (slice.cat.missed/total*100).toFixed(1);
+                            const content = `
+                                <div class="tooltip-title">${slice.cat.name}</div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Missed Savings:</span>
+                                    <span class="tooltip-value">₹${(slice.cat.missed/1000).toFixed(1)}K</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Total Potential:</span>
+                                    <span class="tooltip-value">₹${(slice.cat.totalSaving/1000).toFixed(1)}K</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Percentage:</span>
+                                    <span class="tooltip-value">${pct}%</span>
+                                </div>
+                                <div class="tooltip-row">
+                                    <span class="tooltip-label">Items:</span>
+                                    <span class="tooltip-value">${slice.cat.count}</span>
+                                </div>
+                            `;
+                            showTooltip(tooltip, e.clientX, e.clientY, content);
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) hideTooltip(tooltip);
+            });
+            canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+        }
+
+        // POPULATE TABLES
+        function populateTables() {
+            // Top Items Table with Vendor Comparison
+            document.getElementById('topItemsTable').innerHTML = `
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item Name</th>
+                        <th>J-SIL Rate</th>
+                        <th>BOROSIL Rate</th>
+                        <th>THERMO Rate</th>
+                        <th>Best Vendor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${glasswareData.topItems.map((item, i) => `
+                        <tr>
+                            <td><strong>${i + 1}</strong></td>
+                            <td>${item.name}</td>
+                            <td class="rate-cell ${item.jsil === item.minRate ? 'vendor-best' : ''}">₹${item.jsil.toFixed(2)}</td>
+                            <td class="rate-cell ${item.borosil === item.minRate ? 'vendor-best' : ''}">₹${item.borosil.toFixed(2)}</td>
+                            <td class="rate-cell ${item.thermo === item.minRate ? 'vendor-best' : ''}">₹${item.thermo.toFixed(2)}</td>
+                            <td><span class="vendor-best">${item.vendor}</span></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            // Vendor Table
+            document.getElementById('vendorTable').innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Vendor</th>
+                        <th>Purchase Value</th>
+                        <th>Potential Savings</th>
+                        <th>Savings %</th>
+                        <th>Recommendation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${glasswareData.vendors.map(vendor => `
+                        <tr>
+                            <td><strong>${vendor.name}</strong></td>
+                            <td>₹${(vendor.purchase/10000000).toFixed(2)}Cr</td>
+                            <td style="color: #38a169; font-weight: 600;">₹${(vendor.savings/100000).toFixed(2)}L</td>
+                            <td><strong>${vendor.savingsPct}%</strong></td>
+                            <td>${vendor.name === 'J-SIL' ? '<span class="vendor-best">Recommended</span>' : '-'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+        }
+
+        window.addEventListener('load', () => {
+            drawSavingsChart();
+            drawPlantChart();
+            drawTopMissedChart();
+            drawCategoryDonutChart();
+            populateTables();
+        });
+
+        window.addEventListener('resize', () => {
+            drawSavingsChart();
+            drawPlantChart();
+            drawTopMissedChart();
+            drawCategoryDonutChart();
+        });
+    </script>
+</body>
+</html>
