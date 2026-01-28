@@ -1,0 +1,2655 @@
+
+<html>
+<head>
+<title>R&D Inventory – Governance Dashboard</title>
+<style>
+body {font-family: Arial; margin:20px; background:#fafafa}
+h1 {color:#1f3c88}
+.section {margin-top:40px}
+.card {display:inline-block; padding:20px; margin:10px; background:white;
+       border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+table {border-collapse: collapse; width:100%; margin-top:20px}
+th, td {border:1px solid #ddd; padding:8px}
+th {background:#1f3c88; color:white}
+</style>
+</head>
+<body>
+
+<h1>R&D Chemical Inventory – Governance Dashboard</h1>
+
+<div class="section">
+<h2>Inventory Risk Exposure</h2>
+<div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script src="https://cdn.plot.ly/plotly-2.4.1.min.js"></script>                <div id="56a1ed37-527d-4e1d-a8cc-c72f324b841d" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("56a1ed37-527d-4e1d-a8cc-c72f324b841d")) {                    Plotly.newPlot(                        "56a1ed37-527d-4e1d-a8cc-c72f324b841d",                        [{"alignmentgroup":"True","hovertemplate":"Risk=%{x}<br>Value=%{y}<extra></extra>","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","offsetgroup":"","orientation":"v","showlegend":false,"textposition":"auto","type":"bar","x":["High","Medium","Low","Expired","NA"],"xaxis":"x","y":[1.9500000000000002,2.61,4.16,0.32,0.77],"yaxis":"y"}],                        {"barmode":"relative","legend":{"tracegroupgap":0},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"text":"Inventory Risk Exposure (High / Medium / Low / Expired / NA)"},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Risk"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Value"}}},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+
+<div class="section">
+<h2>Avoidable Procurement</h2>
+<div class="card">Total Events<br><b>726</b></div>
+<div class="card">Avoidable Events<br><b>260</b></div>
+<div class="card">Total Avoidable Value<br><b>₹ 27,300,013</b></div>
+
+<div>                            <div id="4fda31fc-3739-4e46-9239-244ad9742a8f" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("4fda31fc-3739-4e46-9239-244ad9742a8f")) {                    Plotly.newPlot(                        "4fda31fc-3739-4e46-9239-244ad9742a8f",                        [{"alignmentgroup":"True","hovertemplate":"Plant=%{x}<br>Avoidable_Value=%{y}<extra></extra>","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","offsetgroup":"","orientation":"v","showlegend":false,"textposition":"auto","type":"bar","x":[4010,4030,4040,4050],"xaxis":"x","y":[18537110.66,1673576.31,6865114.7,224211.31],"yaxis":"y"}],                        {"barmode":"relative","legend":{"tracegroupgap":0},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"text":"Plant-wise Avoidable Procurement Value"},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Plant"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Avoidable_Value"}}},                        {"responsive": true}                    )                };                            </script>        </div>
+<div>                            <div id="a5355d94-1e2e-4c6e-8b80-1bb95645f5d2" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("a5355d94-1e2e-4c6e-8b80-1bb95645f5d2")) {                    Plotly.newPlot(                        "a5355d94-1e2e-4c6e-8b80-1bb95645f5d2",                        [{"alignmentgroup":"True","hovertemplate":"Avoidable_Value=%{x}<br>Material=%{y}<extra></extra>","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","offsetgroup":"","orientation":"h","showlegend":false,"textposition":"auto","type":"bar","x":[4942035.0,1922500.0,880782.62,846000.0,842036.15,840000.0,812000.0,690516.25,650023.0,645800.0,611280.0,574085.0,572993.12,544000.0,525988.61],"xaxis":"x","y":["DILTIAZEM HYDROCHLORIDE USP","SODIUM BICARBONATE USP (EMNAR)","CLOMIPHENE CITRATE USP","DAPAGLIFLOZIN IH (AMORPHOUS)","MESALAMINE USP","BEMPEDOIC ACID IH","AZILSARTAN MEDOXOMIL POTASSIUM IH","METOPROLOL TARTRATE USP","SEVELAMER HYDROCHLORIDE IH","M-ACRY ACID &M-METHACRY COPOLY 1:2 USPNF","DEXLANSOPRAZOLE ANHYDROUS IH","SACUBITRIL-VALSARTAN 3NA COMPLEX IH","NIFEDIPINE USP","SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)","TERAZOSIN HYDROCHLORIDE USP-BIOINDUSTRIA"],"yaxis":"y"}],                        {"barmode":"relative","legend":{"tracegroupgap":0},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"text":"Top Materials – Avoidable Procurement"},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Avoidable_Value"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"Material"}}},                        {"responsive": true}                    )                };                            </script>        </div>
+
+<h3>Audit Detail – Avoidable Procurement Events</h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Material</th>
+      <th>Plant</th>
+      <th>Posting Date</th>
+      <th>Order Qty</th>
+      <th>Order Value</th>
+      <th>Cumulative Stock Before PO</th>
+      <th>20% Threshold</th>
+      <th>Avoidable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1,1'-CARBONYLDIIMIDAZOLE(530-62-1)</td>
+      <td>4050</td>
+      <td>2023-12-21</td>
+      <td>1.000</td>
+      <td>3000.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>2,4,6-COLLIDINE (108-75-8)</td>
+      <td>4050</td>
+      <td>2022-06-22</td>
+      <td>8.000</td>
+      <td>49000.00</td>
+      <td>8.00</td>
+      <td>1.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>2,4,6-COLLIDINE (108-75-8)</td>
+      <td>4050</td>
+      <td>2022-06-22</td>
+      <td>8.000</td>
+      <td>49000.00</td>
+      <td>16.00</td>
+      <td>1.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ACECLOFENAC BP (MICRONISED)</td>
+      <td>4040</td>
+      <td>2023-04-04</td>
+      <td>5.000</td>
+      <td>10000.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ACESULFAME POTASSIUM BP</td>
+      <td>4040</td>
+      <td>2023-11-29</td>
+      <td>7.000</td>
+      <td>7406.00</td>
+      <td>2.00</td>
+      <td>1.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ACETONE USPNF</td>
+      <td>4010</td>
+      <td>2023-03-15</td>
+      <td>50.000</td>
+      <td>13000.00</td>
+      <td>50.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ACETONE USPNF</td>
+      <td>4010</td>
+      <td>2023-12-28</td>
+      <td>50.000</td>
+      <td>13000.00</td>
+      <td>100.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AMLODIPINE BESILATE BP</td>
+      <td>4040</td>
+      <td>2023-10-18</td>
+      <td>1.500</td>
+      <td>6750.00</td>
+      <td>5.00</td>
+      <td>0.30</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AMLODIPINE BESYLATE USP</td>
+      <td>4040</td>
+      <td>2022-05-03</td>
+      <td>1.000</td>
+      <td>7100.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AMLODIPINE BESYLATE USP</td>
+      <td>4010</td>
+      <td>2023-05-09</td>
+      <td>1.500</td>
+      <td>17199.00</td>
+      <td>2.00</td>
+      <td>0.30</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AMLODIPINE BESYLATE USP (AURORE)</td>
+      <td>4010</td>
+      <td>2023-12-22</td>
+      <td>6.000</td>
+      <td>51000.00</td>
+      <td>5.00</td>
+      <td>1.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AMLODIPINE BESYLATE USP (DMF - UAE)</td>
+      <td>4040</td>
+      <td>2023-05-04</td>
+      <td>1.000</td>
+      <td>20000.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AMN M-ACRY COPOLY TYPE A USPNF RL30D</td>
+      <td>4010</td>
+      <td>2023-07-06</td>
+      <td>30.000</td>
+      <td>123150.00</td>
+      <td>30.00</td>
+      <td>6.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ANHY DIBASIC CALCIUM PHOS USP (CALI-A)</td>
+      <td>4010</td>
+      <td>2023-08-17</td>
+      <td>75.000</td>
+      <td>79350.00</td>
+      <td>25.00</td>
+      <td>15.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ANHYDROUS LACTOSE USPNF (SUPERTAB 21AN)</td>
+      <td>4010</td>
+      <td>2023-03-08</td>
+      <td>100.000</td>
+      <td>86500.00</td>
+      <td>50.00</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ANHYDROUS LACTOSE USPNF (SUPERTAB 21AN)</td>
+      <td>4040</td>
+      <td>2023-05-22</td>
+      <td>50.000</td>
+      <td>43250.00</td>
+      <td>150.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ANHYDROUS LACTOSE USPNF (SUPERTAB 21AN)</td>
+      <td>4010</td>
+      <td>2023-10-17</td>
+      <td>50.000</td>
+      <td>48150.00</td>
+      <td>200.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTEMETHER PHINT (R3955)</td>
+      <td>4040</td>
+      <td>2022-08-11</td>
+      <td>1.000</td>
+      <td>32176.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTEMETHER PHINT (R3955)</td>
+      <td>4010</td>
+      <td>2022-12-21</td>
+      <td>0.500</td>
+      <td>69427.43</td>
+      <td>2.00</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTEMETHER PHINT (R3955)</td>
+      <td>4010</td>
+      <td>2022-12-21</td>
+      <td>0.500</td>
+      <td>69427.43</td>
+      <td>2.50</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTESUNATE PHINT</td>
+      <td>4040</td>
+      <td>2023-03-15</td>
+      <td>2.500</td>
+      <td>55000.00</td>
+      <td>2.00</td>
+      <td>0.50</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTESUNATE PHINT</td>
+      <td>4010</td>
+      <td>2023-09-04</td>
+      <td>0.500</td>
+      <td>9750.00</td>
+      <td>4.50</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTESUNATE PHINT</td>
+      <td>4010</td>
+      <td>2023-10-20</td>
+      <td>0.500</td>
+      <td>9750.00</td>
+      <td>5.00</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ARTESUNATE PHINT</td>
+      <td>4010</td>
+      <td>2023-11-24</td>
+      <td>1.000</td>
+      <td>19500.00</td>
+      <td>5.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ASPIRIN BP (GRANULES) Andhra Sugar Ltd.</td>
+      <td>4030</td>
+      <td>2022-06-15</td>
+      <td>10.000</td>
+      <td>10000.00</td>
+      <td>10.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ASPIRIN EC PELLETS 65% W/W IH</td>
+      <td>4040</td>
+      <td>2022-09-02</td>
+      <td>2.000</td>
+      <td>5400.00</td>
+      <td>3.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ASPIRIN EC PELLETS 65% W/W IH</td>
+      <td>4030</td>
+      <td>2022-10-14</td>
+      <td>5.000</td>
+      <td>7500.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ASPIRIN IP</td>
+      <td>4030</td>
+      <td>2022-07-21</td>
+      <td>10.000</td>
+      <td>10000.00</td>
+      <td>5.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ATORVASTATIN PELLETS 15% W/W IH</td>
+      <td>4040</td>
+      <td>2022-09-02</td>
+      <td>2.000</td>
+      <td>16200.00</td>
+      <td>3.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ATORVASTATIN PELLETS 15% W/W IH</td>
+      <td>4040</td>
+      <td>2023-03-29</td>
+      <td>1.000</td>
+      <td>5500.00</td>
+      <td>5.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ATORVASTATIN PELLETS 15% W/W IH</td>
+      <td>4040</td>
+      <td>2023-03-29</td>
+      <td>1.000</td>
+      <td>5500.00</td>
+      <td>6.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AZILSARTAN MEDOXOMIL POTASSIUM IH</td>
+      <td>4040</td>
+      <td>2022-07-21</td>
+      <td>0.250</td>
+      <td>28000.00</td>
+      <td>0.25</td>
+      <td>0.05</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AZILSARTAN MEDOXOMIL POTASSIUM IH</td>
+      <td>4040</td>
+      <td>2022-10-14</td>
+      <td>4.000</td>
+      <td>448000.00</td>
+      <td>6.50</td>
+      <td>0.80</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AZILSARTAN MEDOXOMIL POTASSIUM IH</td>
+      <td>4040</td>
+      <td>2023-03-03</td>
+      <td>2.000</td>
+      <td>224000.00</td>
+      <td>10.50</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>AZILSARTAN MEDOXOMIL POTASSIUM IH</td>
+      <td>4040</td>
+      <td>2023-10-18</td>
+      <td>1.000</td>
+      <td>112000.00</td>
+      <td>12.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BEMPEDOIC ACID IH</td>
+      <td>4030</td>
+      <td>2023-02-23</td>
+      <td>3.000</td>
+      <td>180000.00</td>
+      <td>2.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BEMPEDOIC ACID IH</td>
+      <td>4030</td>
+      <td>2023-02-23</td>
+      <td>1.000</td>
+      <td>60000.00</td>
+      <td>5.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BEMPEDOIC ACID IH</td>
+      <td>4040</td>
+      <td>2023-03-15</td>
+      <td>2.000</td>
+      <td>120000.00</td>
+      <td>6.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BEMPEDOIC ACID IH</td>
+      <td>4040</td>
+      <td>2023-05-08</td>
+      <td>4.000</td>
+      <td>240000.00</td>
+      <td>8.00</td>
+      <td>0.80</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BEMPEDOIC ACID IH</td>
+      <td>4040</td>
+      <td>2023-06-27</td>
+      <td>2.000</td>
+      <td>120000.00</td>
+      <td>12.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BEMPEDOIC ACID IH</td>
+      <td>4040</td>
+      <td>2023-07-11</td>
+      <td>2.000</td>
+      <td>120000.00</td>
+      <td>14.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BILASTINE IH</td>
+      <td>4040</td>
+      <td>2022-06-22</td>
+      <td>0.250</td>
+      <td>10375.00</td>
+      <td>0.25</td>
+      <td>0.05</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BISOPROLOL FUMARATE IP</td>
+      <td>4030</td>
+      <td>2023-10-10</td>
+      <td>3.000</td>
+      <td>58500.00</td>
+      <td>3.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BISOPROLOL FUMARATE PH.EUR</td>
+      <td>4040</td>
+      <td>2023-03-01</td>
+      <td>3.000</td>
+      <td>61500.00</td>
+      <td>2.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BUPROPION HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2022-07-19</td>
+      <td>20.000</td>
+      <td>118410.00</td>
+      <td>15.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>BUPROPION HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2022-11-29</td>
+      <td>60.000</td>
+      <td>363285.00</td>
+      <td>35.00</td>
+      <td>12.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CAFFEINE BP</td>
+      <td>4040</td>
+      <td>2023-12-27</td>
+      <td>2.000</td>
+      <td>10000.00</td>
+      <td>1.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CANDESARTAN CILEXETIL USP</td>
+      <td>4010</td>
+      <td>2023-12-01</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CANDESARTAN CILEXETIL USP</td>
+      <td>4010</td>
+      <td>2023-12-01</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CANDESARTAN CILEXETIL USP</td>
+      <td>4010</td>
+      <td>2023-12-04</td>
+      <td>1.000</td>
+      <td>62809.25</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CARBAMAZEPINE USP</td>
+      <td>4010</td>
+      <td>2023-12-08</td>
+      <td>10.000</td>
+      <td>95795.00</td>
+      <td>5.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CEFIXIME USP (TRIHYDRATE)</td>
+      <td>4040</td>
+      <td>2022-05-30</td>
+      <td>2.000</td>
+      <td>29200.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CEFIXIME USP (TRIHYDRATE)</td>
+      <td>4040</td>
+      <td>2022-07-12</td>
+      <td>2.000</td>
+      <td>26000.00</td>
+      <td>4.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CEFIXIME USP (TRIHYDRATE)</td>
+      <td>4040</td>
+      <td>2022-07-12</td>
+      <td>2.000</td>
+      <td>26000.00</td>
+      <td>6.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CHLORZOXAZONE USP</td>
+      <td>4040</td>
+      <td>2023-07-14</td>
+      <td>5.000</td>
+      <td>22500.00</td>
+      <td>2.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CHO-STYRENE (100-42-5)</td>
+      <td>4050</td>
+      <td>2022-10-07</td>
+      <td>22.650</td>
+      <td>21275.15</td>
+      <td>5.00</td>
+      <td>4.53</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CLARITHROMYCIN USP</td>
+      <td>4040</td>
+      <td>2022-09-13</td>
+      <td>5.000</td>
+      <td>87500.00</td>
+      <td>3.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CLOMIPHENE CITRATE USP</td>
+      <td>4010</td>
+      <td>2022-12-30</td>
+      <td>1.000</td>
+      <td>87341.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CLOMIPHENE CITRATE USP</td>
+      <td>4010</td>
+      <td>2023-04-04</td>
+      <td>7.000</td>
+      <td>463923.61</td>
+      <td>2.00</td>
+      <td>1.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CLOMIPHENE CITRATE USP</td>
+      <td>4010</td>
+      <td>2023-06-19</td>
+      <td>5.000</td>
+      <td>329518.01</td>
+      <td>9.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CLOPIDOGREL 50% W/W PELLETS IH</td>
+      <td>4040</td>
+      <td>2022-09-02</td>
+      <td>3.000</td>
+      <td>13500.00</td>
+      <td>5.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>CLOPIDOGREL BISULFATE USP</td>
+      <td>4040</td>
+      <td>2023-01-03</td>
+      <td>5.000</td>
+      <td>20500.00</td>
+      <td>2.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>COLESTIPOL HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2022-10-03</td>
+      <td>1.300</td>
+      <td>16900.00</td>
+      <td>30.00</td>
+      <td>0.26</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>COLESTIPOL HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2022-11-29</td>
+      <td>3.000</td>
+      <td>39000.00</td>
+      <td>31.30</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>COLESTIPOL HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2023-01-03</td>
+      <td>10.700</td>
+      <td>139100.00</td>
+      <td>34.30</td>
+      <td>2.14</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DABIGATRAN ETEXILATE PELLETS 35%W/W IH</td>
+      <td>4030</td>
+      <td>2023-05-30</td>
+      <td>1.000</td>
+      <td>39000.31</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DAPAGLIFLOZIN IH (AMORPHOUS)</td>
+      <td>4030</td>
+      <td>2022-05-25</td>
+      <td>1.000</td>
+      <td>456000.00</td>
+      <td>2.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DAPAGLIFLOZIN IH (AMORPHOUS)</td>
+      <td>4040</td>
+      <td>2022-07-20</td>
+      <td>2.000</td>
+      <td>260000.00</td>
+      <td>3.50</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DAPAGLIFLOZIN IH (AMORPHOUS)</td>
+      <td>4040</td>
+      <td>2023-06-19</td>
+      <td>1.000</td>
+      <td>130000.00</td>
+      <td>5.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DAPAGLIFLOZIN PROPANEDIOL(MONOHYDRATE)IH</td>
+      <td>4040</td>
+      <td>2023-08-16</td>
+      <td>3.000</td>
+      <td>135000.00</td>
+      <td>2.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DAPAGLIFLOZIN PROPANEDIOL(MONOHYDRATE)IH</td>
+      <td>4030</td>
+      <td>2023-08-30</td>
+      <td>2.000</td>
+      <td>90000.00</td>
+      <td>5.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DEXAMETHASONE SODIUM PHOSPHATE USP</td>
+      <td>4040</td>
+      <td>2023-10-03</td>
+      <td>0.250</td>
+      <td>37500.00</td>
+      <td>0.25</td>
+      <td>0.05</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DEXLANSOPRAZOLE ANHYDROUS IH</td>
+      <td>4010</td>
+      <td>2022-05-11</td>
+      <td>2.000</td>
+      <td>305640.00</td>
+      <td>4.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DEXLANSOPRAZOLE ANHYDROUS IH</td>
+      <td>4010</td>
+      <td>2022-08-01</td>
+      <td>2.000</td>
+      <td>305640.00</td>
+      <td>6.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DICHLOROMETHANE BP</td>
+      <td>4030</td>
+      <td>2023-03-20</td>
+      <td>270.000</td>
+      <td>14040.00</td>
+      <td>270.00</td>
+      <td>54.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DICHLOROMETHANE BP</td>
+      <td>4040</td>
+      <td>2023-05-22</td>
+      <td>270.000</td>
+      <td>14310.00</td>
+      <td>540.00</td>
+      <td>54.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DIETHYL PHTHALATE USPNF</td>
+      <td>4010</td>
+      <td>2023-09-12</td>
+      <td>4.000</td>
+      <td>18688.00</td>
+      <td>5.00</td>
+      <td>0.80</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DIHYDROARTEMISININ PHINT (MANGALAM)</td>
+      <td>4040</td>
+      <td>2023-03-29</td>
+      <td>1.000</td>
+      <td>21000.00</td>
+      <td>3.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DILTIAZEM HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2022-11-16</td>
+      <td>50.000</td>
+      <td>872445.00</td>
+      <td>27.15</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DILTIAZEM HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2023-02-24</td>
+      <td>50.000</td>
+      <td>850500.00</td>
+      <td>77.15</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DILTIAZEM HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2023-03-21</td>
+      <td>40.000</td>
+      <td>696276.00</td>
+      <td>127.15</td>
+      <td>8.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DILTIAZEM HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2023-03-21</td>
+      <td>10.000</td>
+      <td>174069.00</td>
+      <td>167.15</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DILTIAZEM HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2023-05-24</td>
+      <td>50.000</td>
+      <td>860685.00</td>
+      <td>177.15</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DILTIAZEM HYDROCHLORIDE USP</td>
+      <td>4010</td>
+      <td>2023-09-28</td>
+      <td>100.000</td>
+      <td>1488060.00</td>
+      <td>227.15</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DIMETHICONE USPNF (1000 CST)</td>
+      <td>4040</td>
+      <td>2022-07-08</td>
+      <td>5.000</td>
+      <td>5800.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DIOSMIN EP</td>
+      <td>4040</td>
+      <td>2023-05-25</td>
+      <td>10.000</td>
+      <td>39909.81</td>
+      <td>3.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DIOSMIN EP</td>
+      <td>4040</td>
+      <td>2023-07-12</td>
+      <td>10.000</td>
+      <td>41449.66</td>
+      <td>13.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DL-LYSINE MONOHYDROCHLORIDE (70-53-1)</td>
+      <td>4050</td>
+      <td>2023-12-21</td>
+      <td>3.000</td>
+      <td>3575.00</td>
+      <td>3.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DORZOLAMIDE HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2022-07-26</td>
+      <td>1.000</td>
+      <td>210000.00</td>
+      <td>0.30</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>DORZOLAMIDE HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-11-10</td>
+      <td>0.500</td>
+      <td>100000.00</td>
+      <td>1.30</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>E-ACRY&amp;M-METHACRY COPO DISP USPNF(NM30D)</td>
+      <td>4010</td>
+      <td>2023-08-11</td>
+      <td>20.000</td>
+      <td>79000.00</td>
+      <td>20.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>E-ACRY&amp;M-METHACRY COPO DISP USPNF(NM30D)</td>
+      <td>4010</td>
+      <td>2023-10-10</td>
+      <td>15.000</td>
+      <td>59250.00</td>
+      <td>40.00</td>
+      <td>3.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>EMPAGLIFLOZIN IH (CRYSTALLINE)</td>
+      <td>4010</td>
+      <td>2023-06-15</td>
+      <td>1.000</td>
+      <td>413850.00</td>
+      <td>9.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>EMPAGLIFLOZIN IH (CRYSTALLINE)</td>
+      <td>4030</td>
+      <td>2023-12-27</td>
+      <td>0.500</td>
+      <td>41000.00</td>
+      <td>10.00</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>EMPAGLIFLOZIN IH (CRYSTALLINE)</td>
+      <td>4030</td>
+      <td>2023-12-27</td>
+      <td>0.250</td>
+      <td>20500.00</td>
+      <td>10.50</td>
+      <td>0.05</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>FLUVOXAMINE MALEATE USP</td>
+      <td>4010</td>
+      <td>2022-07-05</td>
+      <td>13.900</td>
+      <td>449791.94</td>
+      <td>11.10</td>
+      <td>2.78</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HESPERIDIN USP</td>
+      <td>4040</td>
+      <td>2023-05-25</td>
+      <td>1.000</td>
+      <td>1746.45</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HESPERIDIN USP</td>
+      <td>4040</td>
+      <td>2023-07-12</td>
+      <td>1.000</td>
+      <td>1906.45</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP</td>
+      <td>4040</td>
+      <td>2022-05-10</td>
+      <td>1.000</td>
+      <td>5500.00</td>
+      <td>5.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP</td>
+      <td>4010</td>
+      <td>2022-12-28</td>
+      <td>2.000</td>
+      <td>24804.00</td>
+      <td>6.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP</td>
+      <td>4040</td>
+      <td>2023-03-03</td>
+      <td>1.000</td>
+      <td>5250.00</td>
+      <td>8.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP</td>
+      <td>4010</td>
+      <td>2023-03-20</td>
+      <td>20.000</td>
+      <td>195264.00</td>
+      <td>9.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP</td>
+      <td>4010</td>
+      <td>2023-10-25</td>
+      <td>4.500</td>
+      <td>24347.70</td>
+      <td>29.00</td>
+      <td>0.90</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP</td>
+      <td>4040</td>
+      <td>2023-11-08</td>
+      <td>1.000</td>
+      <td>5500.00</td>
+      <td>33.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYDROCHLOROTHIAZIDE USP (DMF - UAE)</td>
+      <td>4040</td>
+      <td>2023-03-03</td>
+      <td>1.000</td>
+      <td>5500.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYPROMELLOSE USP (E4M PREMIUM CR)</td>
+      <td>4010</td>
+      <td>2023-09-12</td>
+      <td>25.000</td>
+      <td>78450.00</td>
+      <td>25.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYPROMELLOSE USP 2208 (K100M PREMIUM CR)</td>
+      <td>4040</td>
+      <td>2022-07-08</td>
+      <td>25.000</td>
+      <td>60625.00</td>
+      <td>50.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYPROMELLOSE USP 2208 (K100M PREMIUM CR)</td>
+      <td>4040</td>
+      <td>2023-04-05</td>
+      <td>25.000</td>
+      <td>69125.00</td>
+      <td>75.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HYPROMELLOSE USP 2208 (K100M PREMIUM CR)</td>
+      <td>4040</td>
+      <td>2023-10-16</td>
+      <td>25.000</td>
+      <td>69125.00</td>
+      <td>100.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>IBUPROFEN BP (IOL CHEMICALS)</td>
+      <td>4040</td>
+      <td>2023-09-22</td>
+      <td>10.000</td>
+      <td>20000.00</td>
+      <td>25.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>IMEGLIMIN HYDROCHLORIDE IH</td>
+      <td>4030</td>
+      <td>2023-05-10</td>
+      <td>0.500</td>
+      <td>15000.00</td>
+      <td>2.50</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>INSTACOAT AQUA II A02G10250 PEACH IH</td>
+      <td>4040</td>
+      <td>2023-10-03</td>
+      <td>2.000</td>
+      <td>4548.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>INSTACOAT AQUA II A02G10251 BEIGE IH</td>
+      <td>4040</td>
+      <td>2023-10-03</td>
+      <td>2.000</td>
+      <td>4678.00</td>
+      <td>1.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>INSTACOAT EHP 250 A10D00428 YELLOW IH</td>
+      <td>4040</td>
+      <td>2023-10-03</td>
+      <td>1.000</td>
+      <td>1862.00</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>INSTACOAT SOL IC-EN-428 YELLOW IH</td>
+      <td>4030</td>
+      <td>2023-04-17</td>
+      <td>2.000</td>
+      <td>3772.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>INSTACOAT UNIVERSAL A05R03281 WHITE IH</td>
+      <td>4040</td>
+      <td>2023-10-03</td>
+      <td>1.000</td>
+      <td>1968.00</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>INSTASPHERES TARTARIC ACID CS IH 20-30#</td>
+      <td>4030</td>
+      <td>2022-10-04</td>
+      <td>10.000</td>
+      <td>54040.00</td>
+      <td>5.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>IRON (III) HYDROXIDE POLYMAL COMPLEX IH</td>
+      <td>4040</td>
+      <td>2023-05-30</td>
+      <td>10.000</td>
+      <td>3150.00</td>
+      <td>10.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ISOPROPYL ALCOHOL BP</td>
+      <td>4030</td>
+      <td>2022-11-18</td>
+      <td>160.000</td>
+      <td>22720.00</td>
+      <td>160.00</td>
+      <td>32.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ISOPROPYL ALCOHOL BP</td>
+      <td>4030</td>
+      <td>2023-05-22</td>
+      <td>160.000</td>
+      <td>21120.00</td>
+      <td>320.00</td>
+      <td>32.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ISOPROPYL ALCOHOL BP</td>
+      <td>4040</td>
+      <td>2023-06-05</td>
+      <td>160.000</td>
+      <td>21120.00</td>
+      <td>480.00</td>
+      <td>32.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ISOPROPYL ALCOHOL BP</td>
+      <td>4040</td>
+      <td>2023-12-15</td>
+      <td>160.000</td>
+      <td>24480.00</td>
+      <td>640.00</td>
+      <td>32.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ITRACONAZOLE PELLETS 22%W/W IH</td>
+      <td>4040</td>
+      <td>2022-12-14</td>
+      <td>4.000</td>
+      <td>17200.00</td>
+      <td>2.00</td>
+      <td>0.80</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ITRACONAZOLE PELLETS 22%W/W IH</td>
+      <td>4040</td>
+      <td>2022-12-20</td>
+      <td>3.000</td>
+      <td>15000.00</td>
+      <td>6.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ITRACONAZOLE PELLETS 22%W/W IH</td>
+      <td>4040</td>
+      <td>2022-12-20</td>
+      <td>1.000</td>
+      <td>5000.00</td>
+      <td>9.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>L-(+) TARTARIC ACID (87-69-4)</td>
+      <td>4050</td>
+      <td>2023-08-17</td>
+      <td>5.000</td>
+      <td>4680.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>LACTOSE BP</td>
+      <td>4040</td>
+      <td>2023-04-05</td>
+      <td>25.000</td>
+      <td>5750.00</td>
+      <td>25.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>LACTOSE BP (PHARMATOSE 200 M)</td>
+      <td>4040</td>
+      <td>2023-06-02</td>
+      <td>25.000</td>
+      <td>9525.00</td>
+      <td>25.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>LACTOSE BP (PHARMATOSE 200 M)</td>
+      <td>4040</td>
+      <td>2023-12-26</td>
+      <td>25.000</td>
+      <td>9525.00</td>
+      <td>50.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>LACTOSE MONOHYDRATE USPNF (200M)</td>
+      <td>4010</td>
+      <td>2023-07-11</td>
+      <td>100.000</td>
+      <td>38100.00</td>
+      <td>50.00</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>LIQUID SORBITOL (NON-CRYST) BP(ROQUETTE)</td>
+      <td>4040</td>
+      <td>2023-02-21</td>
+      <td>10.000</td>
+      <td>2000.00</td>
+      <td>25.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>M-ACRY ACID &amp; E-ACRY COPOLY DISP USPNF</td>
+      <td>4010</td>
+      <td>2023-12-12</td>
+      <td>30.000</td>
+      <td>33750.00</td>
+      <td>30.00</td>
+      <td>6.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>M-ACRY ACID &amp;M-METHACRY COPOLY 1:2 USPNF</td>
+      <td>4010</td>
+      <td>2023-03-15</td>
+      <td>20.000</td>
+      <td>205800.00</td>
+      <td>40.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>M-ACRY ACID &amp;M-METHACRY COPOLY 1:2 USPNF</td>
+      <td>4010</td>
+      <td>2023-10-04</td>
+      <td>40.000</td>
+      <td>440000.00</td>
+      <td>60.00</td>
+      <td>8.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MANNITOL USP PEARLITOL 200SD/SPRAY DRIED</td>
+      <td>4040</td>
+      <td>2023-01-23</td>
+      <td>25.000</td>
+      <td>30600.00</td>
+      <td>25.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MANNITOL USP PEARLITOL 200SD/SPRAY DRIED</td>
+      <td>4040</td>
+      <td>2023-08-29</td>
+      <td>25.000</td>
+      <td>29375.00</td>
+      <td>50.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MESALAMINE USP</td>
+      <td>4010</td>
+      <td>2023-03-17</td>
+      <td>50.000</td>
+      <td>336481.59</td>
+      <td>25.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MESALAMINE USP</td>
+      <td>4010</td>
+      <td>2023-06-27</td>
+      <td>25.000</td>
+      <td>167286.84</td>
+      <td>75.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MESALAMINE USP</td>
+      <td>4010</td>
+      <td>2023-12-22</td>
+      <td>25.000</td>
+      <td>169133.86</td>
+      <td>100.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MESALAMINE USP</td>
+      <td>4010</td>
+      <td>2023-12-22</td>
+      <td>25.000</td>
+      <td>169133.86</td>
+      <td>125.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METFORMIN HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2022-12-06</td>
+      <td>50.000</td>
+      <td>16250.00</td>
+      <td>50.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METFORMIN HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-03-03</td>
+      <td>50.000</td>
+      <td>14750.00</td>
+      <td>100.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METFORMIN HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-08-29</td>
+      <td>50.000</td>
+      <td>14250.00</td>
+      <td>150.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METFORMIN HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-11-29</td>
+      <td>100.000</td>
+      <td>21000.00</td>
+      <td>200.00</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METFORMIN HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-12-29</td>
+      <td>100.000</td>
+      <td>20500.00</td>
+      <td>300.00</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METHYLENE CHLORIDE USPNF (EMPROVE GRADE)</td>
+      <td>4010</td>
+      <td>2022-11-16</td>
+      <td>190.000</td>
+      <td>85690.00</td>
+      <td>190.00</td>
+      <td>38.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METOPROLOL TARTRATE USP</td>
+      <td>4010</td>
+      <td>2022-08-10</td>
+      <td>10.000</td>
+      <td>56000.00</td>
+      <td>5.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METOPROLOL TARTRATE USP</td>
+      <td>4010</td>
+      <td>2023-01-25</td>
+      <td>50.000</td>
+      <td>286230.00</td>
+      <td>15.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METOPROLOL TARTRATE USP</td>
+      <td>4010</td>
+      <td>2023-06-08</td>
+      <td>5.000</td>
+      <td>26874.25</td>
+      <td>65.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METOPROLOL TARTRATE USP</td>
+      <td>4010</td>
+      <td>2023-08-08</td>
+      <td>20.000</td>
+      <td>106626.00</td>
+      <td>70.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>METOPROLOL TARTRATE USP</td>
+      <td>4010</td>
+      <td>2023-09-12</td>
+      <td>40.000</td>
+      <td>214786.00</td>
+      <td>90.00</td>
+      <td>8.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-CEOLUS PH101</td>
+      <td>4010</td>
+      <td>2023-07-06</td>
+      <td>100.000</td>
+      <td>65000.00</td>
+      <td>20.00</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-CEOLUS PH101</td>
+      <td>4010</td>
+      <td>2023-09-04</td>
+      <td>60.000</td>
+      <td>39000.00</td>
+      <td>120.00</td>
+      <td>12.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-CEOLUS PH101</td>
+      <td>4010</td>
+      <td>2023-10-13</td>
+      <td>40.000</td>
+      <td>26000.00</td>
+      <td>180.00</td>
+      <td>8.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-CEOLUS PH101</td>
+      <td>4010</td>
+      <td>2023-12-18</td>
+      <td>40.000</td>
+      <td>26000.00</td>
+      <td>220.00</td>
+      <td>8.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-CEOLUS PH102</td>
+      <td>4010</td>
+      <td>2023-07-26</td>
+      <td>20.000</td>
+      <td>13000.00</td>
+      <td>20.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-PHARMACEL102</td>
+      <td>4040</td>
+      <td>2023-04-05</td>
+      <td>50.000</td>
+      <td>12000.00</td>
+      <td>25.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELL USPNF-PHARMACEL102</td>
+      <td>4040</td>
+      <td>2023-10-30</td>
+      <td>50.000</td>
+      <td>12000.00</td>
+      <td>75.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF (101)</td>
+      <td>4010</td>
+      <td>2022-12-05</td>
+      <td>25.000</td>
+      <td>6000.00</td>
+      <td>50.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF (101)</td>
+      <td>4030</td>
+      <td>2023-02-07</td>
+      <td>25.000</td>
+      <td>6000.00</td>
+      <td>75.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF (101)</td>
+      <td>4040</td>
+      <td>2023-04-05</td>
+      <td>50.000</td>
+      <td>12000.00</td>
+      <td>100.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF (101)</td>
+      <td>4010</td>
+      <td>2023-05-10</td>
+      <td>50.000</td>
+      <td>12000.00</td>
+      <td>150.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF (101)</td>
+      <td>4040</td>
+      <td>2023-12-21</td>
+      <td>50.000</td>
+      <td>12000.00</td>
+      <td>200.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF (102)</td>
+      <td>4010</td>
+      <td>2023-12-06</td>
+      <td>50.000</td>
+      <td>12000.00</td>
+      <td>50.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF C-PH301</td>
+      <td>4010</td>
+      <td>2022-08-30</td>
+      <td>25.000</td>
+      <td>36250.00</td>
+      <td>25.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF C-PH301</td>
+      <td>4010</td>
+      <td>2022-12-13</td>
+      <td>25.000</td>
+      <td>36250.00</td>
+      <td>50.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF CEOLUS</td>
+      <td>4030</td>
+      <td>2023-04-06</td>
+      <td>10.000</td>
+      <td>20500.00</td>
+      <td>10.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF CEOLUS</td>
+      <td>4010</td>
+      <td>2023-07-26</td>
+      <td>10.000</td>
+      <td>20500.00</td>
+      <td>20.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF CEOLUS</td>
+      <td>4010</td>
+      <td>2023-11-20</td>
+      <td>20.000</td>
+      <td>41000.00</td>
+      <td>30.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MICROCRYSTALLINE CELLULOSE USPNF-PHAR112</td>
+      <td>4040</td>
+      <td>2023-04-05</td>
+      <td>50.000</td>
+      <td>20850.00</td>
+      <td>50.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>N-BUTANOL (71-36-3)</td>
+      <td>4050</td>
+      <td>2023-03-14</td>
+      <td>6.472</td>
+      <td>7839.99</td>
+      <td>1.62</td>
+      <td>1.29</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>NEBIVOLOL HYDROCHLRIDE IH (DMF GRADE)</td>
+      <td>4040</td>
+      <td>2023-11-09</td>
+      <td>1.000</td>
+      <td>180000.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>NICORANDIL BP</td>
+      <td>4030</td>
+      <td>2023-06-15</td>
+      <td>0.100</td>
+      <td>1800.00</td>
+      <td>0.90</td>
+      <td>0.02</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>NIFEDIPINE USP</td>
+      <td>4010</td>
+      <td>2022-11-25</td>
+      <td>10.000</td>
+      <td>115360.00</td>
+      <td>2.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>NIFEDIPINE USP</td>
+      <td>4010</td>
+      <td>2023-07-06</td>
+      <td>39.670</td>
+      <td>457633.12</td>
+      <td>12.00</td>
+      <td>7.93</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OLMESARTAN MEDOXOMIL USP (D478)</td>
+      <td>4010</td>
+      <td>2022-10-20</td>
+      <td>0.600</td>
+      <td>51687.21</td>
+      <td>0.60</td>
+      <td>0.12</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ONDANSETRON HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-04-03</td>
+      <td>1.000</td>
+      <td>25000.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OPADRY 03F58750 WHITE IH</td>
+      <td>4010</td>
+      <td>2022-12-13</td>
+      <td>5.000</td>
+      <td>11705.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OPADRY II 85F565342 BROWN IH</td>
+      <td>4010</td>
+      <td>2023-12-28</td>
+      <td>5.000</td>
+      <td>11535.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ORLISTAT PELLETS 50% W/W IH (18/30#)</td>
+      <td>4040</td>
+      <td>2022-09-05</td>
+      <td>2.000</td>
+      <td>59962.00</td>
+      <td>3.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>OSE-DIALLYAMINO (651324-08-2)</td>
+      <td>4050</td>
+      <td>2023-08-24</td>
+      <td>1.000</td>
+      <td>74250.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PARACETAMOL BP</td>
+      <td>4040</td>
+      <td>2023-11-01</td>
+      <td>10.000</td>
+      <td>4800.00</td>
+      <td>25.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PERINDOPRIL ARGININE IH (GLENMARK)</td>
+      <td>4040</td>
+      <td>2022-10-18</td>
+      <td>0.500</td>
+      <td>141750.00</td>
+      <td>0.20</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PERINDOPRIL ARGININE IH (GLENMARK)</td>
+      <td>4040</td>
+      <td>2022-12-06</td>
+      <td>0.250</td>
+      <td>69125.00</td>
+      <td>0.70</td>
+      <td>0.05</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PERINDOPRIL ARGININE IH (GLENMARK)</td>
+      <td>4040</td>
+      <td>2023-01-10</td>
+      <td>1.000</td>
+      <td>248160.00</td>
+      <td>0.95</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIOGLITAZONE HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2022-09-21</td>
+      <td>2.000</td>
+      <td>15000.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIOGLITAZONE HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-04-03</td>
+      <td>1.000</td>
+      <td>7500.00</td>
+      <td>4.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIOGLITAZONE HYDROCHLORIDE USP</td>
+      <td>4040</td>
+      <td>2023-11-23</td>
+      <td>2.000</td>
+      <td>20400.00</td>
+      <td>5.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIPERAQUINE PHOSPHATE IH</td>
+      <td>4040</td>
+      <td>2022-07-05</td>
+      <td>5.000</td>
+      <td>27500.00</td>
+      <td>2.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIPERAQUINE PHOSPHATE IH</td>
+      <td>4040</td>
+      <td>2022-11-09</td>
+      <td>10.000</td>
+      <td>50000.00</td>
+      <td>7.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIPERAQUINE PHOSPHATE IH</td>
+      <td>4040</td>
+      <td>2023-03-31</td>
+      <td>15.000</td>
+      <td>71250.00</td>
+      <td>17.00</td>
+      <td>3.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PIPERAQUINE PHOSPHATE IH</td>
+      <td>4040</td>
+      <td>2023-04-26</td>
+      <td>10.000</td>
+      <td>55000.00</td>
+      <td>32.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PLASACRYL HTP20 IH</td>
+      <td>4010</td>
+      <td>2023-07-28</td>
+      <td>5.000</td>
+      <td>25350.00</td>
+      <td>50.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PLASACRYL HTP20 IH</td>
+      <td>4010</td>
+      <td>2023-08-08</td>
+      <td>5.000</td>
+      <td>25350.00</td>
+      <td>55.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>POLYETHYLENE OXIDE USPNF (WSR COAGULANT)</td>
+      <td>4010</td>
+      <td>2023-05-16</td>
+      <td>9.080</td>
+      <td>167099.24</td>
+      <td>4.54</td>
+      <td>1.82</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PREGABALIN PH. EUR</td>
+      <td>4040</td>
+      <td>2022-12-30</td>
+      <td>2.000</td>
+      <td>34000.00</td>
+      <td>5.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PREGABALIN PH. EUR</td>
+      <td>4040</td>
+      <td>2023-04-03</td>
+      <td>5.000</td>
+      <td>85000.00</td>
+      <td>7.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PREGABALIN PH. EUR</td>
+      <td>4040</td>
+      <td>2023-06-02</td>
+      <td>3.000</td>
+      <td>51000.00</td>
+      <td>12.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PREGELATINISED STARCH USPNF (PC-10)</td>
+      <td>4010</td>
+      <td>2023-03-01</td>
+      <td>20.000</td>
+      <td>18800.00</td>
+      <td>20.00</td>
+      <td>4.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PROCHLORPERAZINE MALEATE USP</td>
+      <td>4010</td>
+      <td>2022-12-28</td>
+      <td>1.000</td>
+      <td>118410.00</td>
+      <td>5.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PROPRANOLOL HYDROCHLORIDE USP (MANKIND)</td>
+      <td>4010</td>
+      <td>2023-05-10</td>
+      <td>25.000</td>
+      <td>310462.50</td>
+      <td>5.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PROPYLENE CARBONATE USPNF</td>
+      <td>4030</td>
+      <td>2022-06-09</td>
+      <td>2.500</td>
+      <td>11775.00</td>
+      <td>2.50</td>
+      <td>0.50</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PYRONARIDINE TETRAPHOSPHATE IH</td>
+      <td>4010</td>
+      <td>2023-08-18</td>
+      <td>1.500</td>
+      <td>112500.00</td>
+      <td>1.00</td>
+      <td>0.30</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>PYRONARIDINE TETRAPHOSPHATE IH</td>
+      <td>4010</td>
+      <td>2023-08-18</td>
+      <td>3.000</td>
+      <td>225000.00</td>
+      <td>2.50</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>RACECADOTRIL PH. EUR. (MICRONISED)</td>
+      <td>4040</td>
+      <td>2023-01-17</td>
+      <td>0.500</td>
+      <td>19475.00</td>
+      <td>0.50</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>RAMIPRIL BP</td>
+      <td>4040</td>
+      <td>2023-12-05</td>
+      <td>1.000</td>
+      <td>45500.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>RIVAROXABAN EP</td>
+      <td>4030</td>
+      <td>2022-05-04</td>
+      <td>0.700</td>
+      <td>26600.00</td>
+      <td>0.30</td>
+      <td>0.14</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>RIVAROXABAN EP</td>
+      <td>4030</td>
+      <td>2022-10-18</td>
+      <td>1.000</td>
+      <td>38000.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>RIVAROXABAN IH</td>
+      <td>4010</td>
+      <td>2022-10-20</td>
+      <td>5.000</td>
+      <td>447315.00</td>
+      <td>1.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>ROSUVASTATIN CALCIUM PHEUR</td>
+      <td>4040</td>
+      <td>2022-07-27</td>
+      <td>0.500</td>
+      <td>27500.00</td>
+      <td>3.00</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SACUBITRIL-VALSARTAN 3NA COMPLEX IH</td>
+      <td>4040</td>
+      <td>2022-09-23</td>
+      <td>2.000</td>
+      <td>485000.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SACUBITRIL-VALSARTAN 3NA COMPLEX IH</td>
+      <td>4040</td>
+      <td>2023-08-25</td>
+      <td>1.000</td>
+      <td>89085.00</td>
+      <td>4.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SALICYLIC ACID USP</td>
+      <td>4040</td>
+      <td>2023-09-21</td>
+      <td>1.000</td>
+      <td>5000.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SALICYLIC ACID USP</td>
+      <td>4040</td>
+      <td>2023-12-27</td>
+      <td>2.000</td>
+      <td>10000.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SEVELAMER HYDROCHLORIDE IH</td>
+      <td>4010</td>
+      <td>2023-09-25</td>
+      <td>30.000</td>
+      <td>322023.00</td>
+      <td>40.00</td>
+      <td>6.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SEVELAMER HYDROCHLORIDE IH</td>
+      <td>4010</td>
+      <td>2023-12-06</td>
+      <td>40.000</td>
+      <td>328000.00</td>
+      <td>70.00</td>
+      <td>8.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SILODOSIN IH (METROCHEM)</td>
+      <td>4030</td>
+      <td>2022-09-20</td>
+      <td>0.200</td>
+      <td>45000.00</td>
+      <td>0.30</td>
+      <td>0.04</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SILODOSIN IH (METROCHEM)</td>
+      <td>4030</td>
+      <td>2023-03-27</td>
+      <td>0.500</td>
+      <td>112500.00</td>
+      <td>0.50</td>
+      <td>0.10</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)</td>
+      <td>4040</td>
+      <td>2022-11-18</td>
+      <td>5.000</td>
+      <td>140000.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)</td>
+      <td>4040</td>
+      <td>2022-12-19</td>
+      <td>5.000</td>
+      <td>140000.00</td>
+      <td>10.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)</td>
+      <td>4030</td>
+      <td>2023-01-03</td>
+      <td>3.000</td>
+      <td>84000.00</td>
+      <td>15.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)</td>
+      <td>4040</td>
+      <td>2023-10-09</td>
+      <td>10.000</td>
+      <td>180000.00</td>
+      <td>18.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SODIUM ALGINATE USPNF (MANUCOL LKX)</td>
+      <td>4010</td>
+      <td>2023-01-20</td>
+      <td>50.000</td>
+      <td>328900.00</td>
+      <td>25.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SODIUM ALGINATE USPNF (MANUCOL LKX)</td>
+      <td>4010</td>
+      <td>2023-03-16</td>
+      <td>25.000</td>
+      <td>164450.00</td>
+      <td>75.00</td>
+      <td>5.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SODIUM BICARBONATE USP (EMNAR)</td>
+      <td>4010</td>
+      <td>2022-07-07</td>
+      <td>500.000</td>
+      <td>1922500.00</td>
+      <td>150.00</td>
+      <td>100.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SODIUM CHLORIDE BP (EMPROVE GRADE)</td>
+      <td>4030</td>
+      <td>2022-12-30</td>
+      <td>1.000</td>
+      <td>5909.00</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SODIUM METHYL HYDROXYBENZOATE BP</td>
+      <td>4040</td>
+      <td>2023-01-30</td>
+      <td>4000.000</td>
+      <td>5000.00</td>
+      <td>2000.00</td>
+      <td>800.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SODIUM STEARYL FUMARATE USPNF (PRUV)</td>
+      <td>4030</td>
+      <td>2023-03-02</td>
+      <td>5.000</td>
+      <td>77500.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SPIRAMYCIN PH. EUR.</td>
+      <td>4040</td>
+      <td>2022-06-22</td>
+      <td>1.000</td>
+      <td>33814.67</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SPIRAMYCIN PH. EUR.</td>
+      <td>4040</td>
+      <td>2022-06-22</td>
+      <td>1.000</td>
+      <td>33814.66</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SUCRALOSE USPNF</td>
+      <td>4040</td>
+      <td>2023-11-29</td>
+      <td>1.000</td>
+      <td>3560.00</td>
+      <td>5.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SUCROSE BP (PHA. GRD. SU. PULV.)</td>
+      <td>4040</td>
+      <td>2023-12-19</td>
+      <td>100.000</td>
+      <td>5000.00</td>
+      <td>50.00</td>
+      <td>20.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SUGAR SPHERES USPNF (SUGLETS® 25#30)</td>
+      <td>4010</td>
+      <td>2023-09-12</td>
+      <td>50.000</td>
+      <td>126350.00</td>
+      <td>50.00</td>
+      <td>10.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SULFADOXINE PHEUR</td>
+      <td>4040</td>
+      <td>2023-03-01</td>
+      <td>10.000</td>
+      <td>200000.00</td>
+      <td>10.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>SULFURYL CHLORIDE (7791-25-5)</td>
+      <td>4050</td>
+      <td>2023-09-25</td>
+      <td>3.332</td>
+      <td>2071.17</td>
+      <td>2.50</td>
+      <td>0.67</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TELMISARTAN USP</td>
+      <td>4040</td>
+      <td>2022-08-08</td>
+      <td>2.000</td>
+      <td>33440.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TELMISARTAN USP</td>
+      <td>4040</td>
+      <td>2022-12-19</td>
+      <td>5.000</td>
+      <td>89793.00</td>
+      <td>4.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TELMISARTAN USP</td>
+      <td>4040</td>
+      <td>2023-04-07</td>
+      <td>5.000</td>
+      <td>90200.00</td>
+      <td>9.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TELMISARTAN USP</td>
+      <td>4010</td>
+      <td>2023-12-12</td>
+      <td>4.000</td>
+      <td>49950.00</td>
+      <td>14.00</td>
+      <td>0.80</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TENELIGLIPTIN HYDROBROMIDE HYDRATE IH</td>
+      <td>4030</td>
+      <td>2023-01-06</td>
+      <td>1.000</td>
+      <td>12050.00</td>
+      <td>1.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TENELIGLIPTIN HYDROBROMIDE HYDRATE IH</td>
+      <td>4040</td>
+      <td>2023-04-21</td>
+      <td>2.000</td>
+      <td>23000.00</td>
+      <td>2.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TERAZOSIN HYDROCHLORIDE USP-BIOINDUSTRIA</td>
+      <td>4010</td>
+      <td>2022-10-11</td>
+      <td>1.000</td>
+      <td>168379.60</td>
+      <td>2.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TERAZOSIN HYDROCHLORIDE USP-BIOINDUSTRIA</td>
+      <td>4010</td>
+      <td>2023-04-04</td>
+      <td>2.000</td>
+      <td>357609.01</td>
+      <td>3.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>THIOCOLCHICOSIDE IH</td>
+      <td>4040</td>
+      <td>2023-02-10</td>
+      <td>0.100</td>
+      <td>77500.00</td>
+      <td>0.10</td>
+      <td>0.02</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TICAGRELOR EP (FORM II)</td>
+      <td>4030</td>
+      <td>2022-04-26</td>
+      <td>0.750</td>
+      <td>78750.00</td>
+      <td>0.75</td>
+      <td>0.15</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TOLPERISONE HYDROCHLORIDE JP</td>
+      <td>4040</td>
+      <td>2023-10-25</td>
+      <td>1.000</td>
+      <td>2000.00</td>
+      <td>5.00</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TORSEMIDE USP</td>
+      <td>4040</td>
+      <td>2023-03-31</td>
+      <td>1.000</td>
+      <td>37000.00</td>
+      <td>0.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TRAVOPROST USP</td>
+      <td>4040</td>
+      <td>2022-11-22</td>
+      <td>2.000</td>
+      <td>210000.00</td>
+      <td>1.00</td>
+      <td>0.40</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TRAVOPROST USP</td>
+      <td>4040</td>
+      <td>2023-07-24</td>
+      <td>0.200</td>
+      <td>21000.00</td>
+      <td>3.00</td>
+      <td>0.04</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TRAVOPROST USP</td>
+      <td>4040</td>
+      <td>2023-08-30</td>
+      <td>1.000</td>
+      <td>105000.00</td>
+      <td>3.20</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TRIAMCINOLONE HEXACETONIDE USP</td>
+      <td>4030</td>
+      <td>2022-10-10</td>
+      <td>0.050</td>
+      <td>50000.00</td>
+      <td>0.50</td>
+      <td>0.01</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>TRIMETHYL ORTHOFORMATE (149-73-5)</td>
+      <td>4050</td>
+      <td>2022-06-07</td>
+      <td>5.000</td>
+      <td>9520.00</td>
+      <td>5.00</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VALSARTAN USP</td>
+      <td>4010</td>
+      <td>2023-11-23</td>
+      <td>10.000</td>
+      <td>87907.01</td>
+      <td>3.00</td>
+      <td>2.00</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VALSARTAN USP</td>
+      <td>4010</td>
+      <td>2023-11-23</td>
+      <td>3.000</td>
+      <td>26371.51</td>
+      <td>13.00</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VARDENAFIL HCL TRIHYDRATE BP</td>
+      <td>4040</td>
+      <td>2022-11-22</td>
+      <td>0.250</td>
+      <td>22000.00</td>
+      <td>0.25</td>
+      <td>0.05</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VARENICLINE TARTRATE IH</td>
+      <td>4010</td>
+      <td>2022-08-09</td>
+      <td>0.100</td>
+      <td>487062.10</td>
+      <td>0.15</td>
+      <td>0.02</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VERAPAMIL HYDROCHLORIDE \nUSP</td>
+      <td>4010</td>
+      <td>2022-05-02</td>
+      <td>16.720</td>
+      <td>178462.59</td>
+      <td>120.00</td>
+      <td>3.34</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VILDAGLIPTIN IH</td>
+      <td>4040</td>
+      <td>2023-02-14</td>
+      <td>1.000</td>
+      <td>8000.00</td>
+      <td>1.50</td>
+      <td>0.20</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VILDAGLIPTIN IH</td>
+      <td>4040</td>
+      <td>2023-03-15</td>
+      <td>3.000</td>
+      <td>24000.00</td>
+      <td>2.50</td>
+      <td>0.60</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>VILDAGLIPTIN IH</td>
+      <td>4040</td>
+      <td>2023-07-03</td>
+      <td>5.000</td>
+      <td>40000.00</td>
+      <td>5.50</td>
+      <td>1.00</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</body>
+</html>
