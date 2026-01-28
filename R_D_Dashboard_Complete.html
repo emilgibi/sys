@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R&D Inventory – Governance Dashboard</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f5f7fa;
+    color: #2d3748;
+    padding: 24px;
+}
+
+.container { max-width: 1920px; margin: 0 auto; }
+
+.header {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+h1 { 
+    font-size: 28px; 
+    color: #1a202c; 
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.subtitle { 
+    font-size: 14px; 
+    color: #718096; 
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin: 0;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-top: 4px solid #3182ce;
+    display: block;
+}
+
+.card-label {
+    font-size: 12px;
+    color: #718096;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.card-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    width: 100%;
+    height: 500px;
+    position: relative;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 16px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 13px;
+}
+
+th {
+    background: #3182ce;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+tbody tr:hover {
+    background: #f7fafc;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.table-wrapper {
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+/* Tooltip Styles */
+.tooltip {
+    position: fixed;
+    background: #1a202c;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    min-width: 200px;
+    max-width: 350px;
+}
+
+.tooltip.active { opacity: 1; }
+
+.tooltip-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 6px;
+}
+
+.tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0;
+    font-size: 12px;
+}
+
+.tooltip-label {
+    color: #cbd5e0;
+    margin-right: 12px;
+}
+
+.tooltip-value {
+    font-weight: 600;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>R&D Chemical Inventory – Governance Dashboard</h1>
+        <div class="subtitle">Comprehensive inventory analysis and procurement governance</div>
+    </div>
+
+    <!-- Inventory Risk Exposure -->
+    <div class="section">
+        <h2>Inventory Risk Exposure</h2>
+        <div class="chart-container">
+            <canvas id="riskCanvas"></canvas>
+            <div id="riskTooltip" class="tooltip"></div>
+        </div>
+    </div>
+
+    <!-- Avoidable Procurement -->
+    <div class="section">
+        <h2>Avoidable Procurement</h2>
+        <div class="kpi-grid">
+            <div class="card">
+                <div class="card-label">Total Events</div>
+                <div class="card-value">726</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Avoidable Events</div>
+                <div class="card-value">260</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Total Avoidable Value</div>
+                <div class="card-value">₹27.3Cr</div>
+            </div>
+        </div>
+
+        <!-- Plant-wise Chart -->
+        <div class="chart-container">
+            <canvas id="plantCanvas"></canvas>
+            <div id="plantTooltip" class="tooltip"></div>
+        </div>
+
+        <!-- Materials Chart -->
+        <div class="chart-container">
+            <canvas id="materialsCanvas"></canvas>
+            <div id="materialsTooltip" class="tooltip"></div>
+        </div>
+
+        <h3>Audit Detail – Avoidable Procurement Events (260 Records)</h3>
+        <div class="table-wrapper">
+            <table id="procurementTable">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Plant</th>
+                        <th>Procurement Date</th>
+                        <th>Qty Procured (kg)</th>
+                        <th>Rate (₹/kg)</th>
+                        <th>Available Stock (kg)</th>
+                        <th>Days to Expire</th>
+                        <th>Avoidable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+const tableData = [
+    ['1,1\'-CARBONYLDIIMIDAZOLE(530-62-1)', '4050', '2023-12-21', '1.000', '3000.00', '1.00', '0.20', 'Yes'],
+    ['2,4,6-COLLIDINE (108-75-8)', '4050', '2022-06-22', '8.000', '49000.00', '8.00', '1.60', 'Yes'],
+    ['2,4,6-COLLIDINE (108-75-8)', '4050', '2022-06-22', '8.000', '49000.00', '16.00', '1.60', 'Yes'],
+    ['ACECLOFENAC BP (MICRONISED)', '4040', '2023-04-04', '5.000', '10000.00', '1.00', '1.00', 'Yes'],
+    ['ACESULFAME POTASSIUM BP', '4040', '2023-11-29', '7.000', '7406.00', '2.00', '1.40', 'Yes'],
+    ['ACETONE USPNF', '4010', '2023-03-15', '50.000', '13000.00', '50.00', '10.00', 'Yes'],
+    ['ACETONE USPNF', '4010', '2023-12-28', '50.000', '13000.00', '100.00', '10.00', 'Yes'],
+    ['AMLODIPINE BESILATE BP', '4040', '2023-10-18', '1.500', '6750.00', '5.00', '0.30', 'Yes'],
+    ['AMLODIPINE BESYLATE USP', '4040', '2022-05-03', '1.000', '7100.00', '1.00', '0.20', 'Yes'],
+    ['AMLODIPINE BESYLATE USP', '4010', '2023-05-09', '1.500', '17199.00', '2.00', '0.30', 'Yes'],
+    ['AMLODIPINE BESYLATE USP (AURORE)', '4010', '2023-12-22', '6.000', '51000.00', '5.00', '1.20', 'Yes'],
+    ['AMLODIPINE BESYLATE USP (DMF - UAE)', '4040', '2023-05-04', '1.000', '20000.00', '1.00', '0.20', 'Yes'],
+    ['AMN M-ACRY COPOLY TYPE A USPNF RL30D', '4010', '2023-07-06', '30.000', '123150.00', '30.00', '6.00', 'Yes'],
+    ['ANHY DIBASIC CALCIUM PHOS USP (CALI-A)', '4010', '2023-08-17', '75.000', '79350.00', '25.00', '15.00', 'Yes'],
+    ['ANHYDROUS LACTOSE USPNF (SUPERTAB 21AN)', '4010', '2023-03-08', '100.000', '86500.00', '50.00', '20.00', 'Yes'],
+    ['ANHYDROUS LACTOSE USPNF (SUPERTAB 21AN)', '4040', '2023-05-22', '50.000', '43250.00', '150.00', '10.00', 'Yes'],
+    ['ANHYDROUS LACTOSE USPNF (SUPERTAB 21AN)', '4010', '2023-10-17', '50.000', '48150.00', '200.00', '10.00', 'Yes'],
+    ['ARTEMETHER PHINT (R3955)', '4040', '2022-08-11', '1.000', '32176.00', '1.00', '0.20', 'Yes'],
+    ['ARTEMETHER PHINT (R3955)', '4010', '2022-12-21', '0.500', '69427.43', '2.00', '0.10', 'Yes'],
+    ['ARTEMETHER PHINT (R3955)', '4010', '2022-12-21', '0.500', '69427.43', '2.50', '0.10', 'Yes'],
+    ['ARTESUNATE PHINT', '4040', '2023-03-15', '2.500', '55000.00', '2.00', '0.50', 'Yes'],
+    ['ARTESUNATE PHINT', '4010', '2023-09-04', '0.500', '9750.00', '4.50', '0.10', 'Yes'],
+    ['ARTESUNATE PHINT', '4010', '2023-10-20', '0.500', '9750.00', '5.00', '0.10', 'Yes'],
+    ['ARTESUNATE PHINT', '4010', '2023-11-24', '1.000', '19500.00', '5.50', '0.20', 'Yes'],
+    ['ASPIRIN BP (GRANULES) Andhra Sugar Ltd.', '4030', '2022-06-15', '10.000', '10000.00', '10.00', '2.00', 'Yes'],
+    ['ASPIRIN EC PELLETS 65% W/W IH', '4040', '2022-09-02', '2.000', '5400.00', '3.00', '0.40', 'Yes'],
+    ['ASPIRIN EC PELLETS 65% W/W IH', '4030', '2022-10-14', '5.000', '7500.00', '5.00', '1.00', 'Yes'],
+    ['ASPIRIN IP', '4030', '2022-07-21', '10.000', '10000.00', '5.00', '2.00', 'Yes'],
+    ['ATORVASTATIN PELLETS 15% W/W IH', '4040', '2022-09-02', '2.000', '16200.00', '3.00', '0.40', 'Yes'],
+    ['ATORVASTATIN PELLETS 15% W/W IH', '4040', '2023-03-29', '1.000', '5500.00', '5.00', '0.20', 'Yes'],
+    ['ATORVASTATIN PELLETS 15% W/W IH', '4040', '2023-03-29', '1.000', '5500.00', '6.00', '0.20', 'Yes'],
+    ['AZILSARTAN MEDOXOMIL POTASSIUM IH', '4040', '2022-07-21', '0.250', '28000.00', '0.25', '0.05', 'Yes'],
+    ['AZILSARTAN MEDOXOMIL POTASSIUM IH', '4040', '2022-10-14', '4.000', '448000.00', '6.50', '0.80', 'Yes'],
+    ['AZILSARTAN MEDOXOMIL POTASSIUM IH', '4040', '2023-03-03', '2.000', '224000.00', '10.50', '0.40', 'Yes'],
+    ['AZILSARTAN MEDOXOMIL POTASSIUM IH', '4040', '2023-10-18', '1.000', '112000.00', '12.50', '0.20', 'Yes'],
+    ['BEMPEDOIC ACID IH', '4030', '2023-02-23', '3.000', '180000.00', '2.00', '0.60', 'Yes'],
+    ['BEMPEDOIC ACID IH', '4030', '2023-02-23', '1.000', '60000.00', '5.00', '0.20', 'Yes'],
+    ['BEMPEDOIC ACID IH', '4040', '2023-03-15', '2.000', '120000.00', '6.00', '0.40', 'Yes'],
+    ['BEMPEDOIC ACID IH', '4040', '2023-05-08', '4.000', '240000.00', '8.00', '0.80', 'Yes'],
+    ['BEMPEDOIC ACID IH', '4040', '2023-06-27', '2.000', '120000.00', '12.00', '0.40', 'Yes'],
+    ['BEMPEDOIC ACID IH', '4040', '2023-07-11', '2.000', '120000.00', '14.00', '0.40', 'Yes'],
+    ['BILASTINE IH', '4040', '2022-06-22', '0.250', '10375.00', '0.25', '0.05', 'Yes'],
+    ['BISOPROLOL FUMARATE IP', '4030', '2023-10-10', '3.000', '58500.00', '3.00', '0.60', 'Yes'],
+    ['BISOPROLOL FUMARATE PH.EUR', '4040', '2023-03-01', '3.000', '61500.00', '2.00', '0.60', 'Yes'],
+    ['BUPROPION HYDROCHLORIDE USP', '4010', '2022-07-19', '20.000', '118410.00', '15.00', '4.00', 'Yes'],
+    ['BUPROPION HYDROCHLORIDE USP', '4010', '2022-11-29', '60.000', '363285.00', '35.00', '12.00', 'Yes'],
+    ['CAFFEINE BP', '4040', '2023-12-27', '2.000', '10000.00', '1.00', '0.40', 'Yes'],
+    ['CANDESARTAN CILEXETIL USP', '4010', '2023-12-01', '0.000', '0.00', '0.00', '0.00', 'Yes'],
+    ['CANDESARTAN CILEXETIL USP', '4010', '2023-12-01', '0.000', '0.00', '0.00', '0.00', 'Yes'],
+    ['CANDESARTAN CILEXETIL USP', '4010', '2023-12-04', '1.000', '62809.25', '1.00', '0.20', 'Yes'],
+    ['CARBAMAZEPINE USP', '4010', '2023-12-08', '10.000', '95795.00', '5.00', '2.00', 'Yes'],
+    ['CEFIXIME USP (TRIHYDRATE)', '4040', '2022-05-30', '2.000', '29200.00', '2.00', '0.40', 'Yes'],
+    ['CEFIXIME USP (TRIHYDRATE)', '4040', '2022-07-12', '2.000', '26000.00', '4.00', '0.40', 'Yes'],
+    ['CEFIXIME USP (TRIHYDRATE)', '4040', '2022-07-12', '2.000', '26000.00', '6.00', '0.40', 'Yes'],
+    ['CHLORZOXAZONE USP', '4040', '2023-07-14', '5.000', '22500.00', '2.00', '1.00', 'Yes'],
+    ['CHO-STYRENE (100-42-5)', '4050', '2022-10-07', '22.650', '21275.15', '5.00', '4.53', 'Yes'],
+    ['CLARITHROMYCIN USP', '4040', '2022-09-13', '5.000', '87500.00', '3.00', '1.00', 'Yes'],
+    ['CLOMIPHENE CITRATE USP', '4010', '2022-12-30', '1.000', '87341.00', '1.00', '0.20', 'Yes'],
+    ['CLOMIPHENE CITRATE USP', '4010', '2023-04-04', '7.000', '463923.61', '2.00', '1.40', 'Yes'],
+    ['CLOMIPHENE CITRATE USP', '4010', '2023-06-19', '5.000', '329518.01', '9.00', '1.00', 'Yes'],
+    ['CLOPIDOGREL 50% W/W PELLETS IH', '4040', '2022-09-02', '3.000', '13500.00', '5.00', '0.60', 'Yes'],
+    ['CLOPIDOGREL BISULFATE USP', '4040', '2023-01-03', '5.000', '20500.00', '2.00', '1.00', 'Yes'],
+    ['COLESTIPOL HYDROCHLORIDE USP', '4010', '2022-10-03', '1.300', '16900.00', '30.00', '0.26', 'Yes'],
+    ['COLESTIPOL HYDROCHLORIDE USP', '4010', '2022-11-29', '3.000', '39000.00', '31.30', '0.60', 'Yes'],
+    ['COLESTIPOL HYDROCHLORIDE USP', '4010', '2023-01-03', '10.700', '139100.00', '34.30', '2.14', 'Yes'],
+    ['DABIGATRAN ETEXILATE PELLETS 35%W/W IH', '4030', '2023-05-30', '1.000', '39000.31', '2.00', '0.20', 'Yes'],
+    ['DAPAGLIFLOZIN IH (AMORPHOUS)', '4030', '2022-05-25', '1.000', '456000.00', '2.50', '0.20', 'Yes'],
+    ['DAPAGLIFLOZIN IH (AMORPHOUS)', '4040', '2022-07-20', '2.000', '260000.00', '3.50', '0.40', 'Yes'],
+    ['DAPAGLIFLOZIN IH (AMORPHOUS)', '4040', '2023-06-19', '1.000', '130000.00', '5.50', '0.20', 'Yes'],
+    ['DAPAGLIFLOZIN PROPANEDIOL(MONOHYDRATE)IH', '4040', '2023-08-16', '3.000', '135000.00', '2.00', '0.60', 'Yes'],
+    ['DAPAGLIFLOZIN PROPANEDIOL(MONOHYDRATE)IH', '4030', '2023-08-30', '2.000', '90000.00', '5.00', '0.40', 'Yes'],
+    ['DEXAMETHASONE SODIUM PHOSPHATE USP', '4040', '2023-10-03', '0.250', '37500.00', '0.25', '0.05', 'Yes'],
+    ['DEXLANSOPRAZOLE ANHYDROUS IH', '4010', '2022-05-11', '2.000', '305640.00', '4.00', '0.40', 'Yes'],
+    ['DEXLANSOPRAZOLE ANHYDROUS IH', '4010', '2022-08-01', '2.000', '305640.00', '6.00', '0.40', 'Yes'],
+    ['DICHLOROMETHANE BP', '4030', '2023-03-20', '270.000', '14040.00', '270.00', '54.00', 'Yes'],
+    ['DICHLOROMETHANE BP', '4040', '2023-05-22', '270.000', '14310.00', '540.00', '54.00', 'Yes'],
+    ['DIETHYL PHTHALATE USPNF', '4010', '2023-09-12', '4.000', '18688.00', '5.00', '0.80', 'Yes'],
+    ['DIHYDROARTEMISININ PHINT (MANGALAM)', '4040', '2023-03-29', '1.000', '21000.00', '3.00', '0.20', 'Yes'],
+    ['DILTIAZEM HYDROCHLORIDE USP', '4010', '2022-11-16', '50.000', '872445.00', '27.15', '10.00', 'Yes'],
+    ['DILTIAZEM HYDROCHLORIDE USP', '4010', '2023-02-24', '50.000', '850500.00', '77.15', '10.00', 'Yes'],
+    ['DILTIAZEM HYDROCHLORIDE USP', '4010', '2023-03-21', '40.000', '696276.00', '127.15', '8.00', 'Yes'],
+    ['DILTIAZEM HYDROCHLORIDE USP', '4010', '2023-03-21', '10.000', '174069.00', '167.15', '2.00', 'Yes'],
+    ['DILTIAZEM HYDROCHLORIDE USP', '4010', '2023-05-24', '50.000', '860685.00', '177.15', '10.00', 'Yes'],
+    ['DILTIAZEM HYDROCHLORIDE USP', '4010', '2023-09-28', '100.000', '1488060.00', '227.15', '20.00', 'Yes'],
+    ['DIMETHICONE USPNF (1000 CST)', '4040', '2022-07-08', '5.000', '5800.00', '5.00', '1.00', 'Yes'],
+    ['DIOSMIN EP', '4040', '2023-05-25', '10.000', '39909.81', '3.00', '2.00', 'Yes'],
+    ['DIOSMIN EP', '4040', '2023-07-12', '10.000', '41449.66', '13.00', '2.00', 'Yes'],
+    ['DL-LYSINE MONOHYDROCHLORIDE (70-53-1)', '4050', '2023-12-21', '3.000', '3575.00', '3.00', '0.60', 'Yes'],
+    ['DORZOLAMIDE HYDROCHLORIDE USP', '4040', '2022-07-26', '1.000', '210000.00', '0.30', '0.20', 'Yes'],
+    ['DORZOLAMIDE HYDROCHLORIDE USP', '4040', '2023-11-10', '0.500', '100000.00', '1.30', '0.10', 'Yes'],
+    ['E-ACRY&amp;M-METHACRY COPO DISP USPNF(NM30D)', '4010', '2023-08-11', '20.000', '79000.00', '20.00', '4.00', 'Yes'],
+    ['E-ACRY&amp;M-METHACRY COPO DISP USPNF(NM30D)', '4010', '2023-10-10', '15.000', '59250.00', '40.00', '3.00', 'Yes'],
+    ['EMPAGLIFLOZIN IH (CRYSTALLINE)', '4010', '2023-06-15', '1.000', '413850.00', '9.00', '0.20', 'Yes'],
+    ['EMPAGLIFLOZIN IH (CRYSTALLINE)', '4030', '2023-12-27', '0.500', '41000.00', '10.00', '0.10', 'Yes'],
+    ['EMPAGLIFLOZIN IH (CRYSTALLINE)', '4030', '2023-12-27', '0.250', '20500.00', '10.50', '0.05', 'Yes'],
+    ['FLUVOXAMINE MALEATE USP', '4010', '2022-07-05', '13.900', '449791.94', '11.10', '2.78', 'Yes'],
+    ['HESPERIDIN USP', '4040', '2023-05-25', '1.000', '1746.45', '1.00', '0.20', 'Yes'],
+    ['HESPERIDIN USP', '4040', '2023-07-12', '1.000', '1906.45', '2.00', '0.20', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP', '4040', '2022-05-10', '1.000', '5500.00', '5.00', '0.20', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP', '4010', '2022-12-28', '2.000', '24804.00', '6.00', '0.40', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP', '4040', '2023-03-03', '1.000', '5250.00', '8.00', '0.20', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP', '4010', '2023-03-20', '20.000', '195264.00', '9.00', '4.00', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP', '4010', '2023-10-25', '4.500', '24347.70', '29.00', '0.90', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP', '4040', '2023-11-08', '1.000', '5500.00', '33.50', '0.20', 'Yes'],
+    ['HYDROCHLOROTHIAZIDE USP (DMF - UAE)', '4040', '2023-03-03', '1.000', '5500.00', '1.00', '0.20', 'Yes'],
+    ['HYPROMELLOSE USP (E4M PREMIUM CR)', '4010', '2023-09-12', '25.000', '78450.00', '25.00', '5.00', 'Yes'],
+    ['HYPROMELLOSE USP 2208 (K100M PREMIUM CR)', '4040', '2022-07-08', '25.000', '60625.00', '50.00', '5.00', 'Yes'],
+    ['HYPROMELLOSE USP 2208 (K100M PREMIUM CR)', '4040', '2023-04-05', '25.000', '69125.00', '75.00', '5.00', 'Yes'],
+    ['HYPROMELLOSE USP 2208 (K100M PREMIUM CR)', '4040', '2023-10-16', '25.000', '69125.00', '100.00', '5.00', 'Yes'],
+    ['IBUPROFEN BP (IOL CHEMICALS)', '4040', '2023-09-22', '10.000', '20000.00', '25.00', '2.00', 'Yes'],
+    ['IMEGLIMIN HYDROCHLORIDE IH', '4030', '2023-05-10', '0.500', '15000.00', '2.50', '0.10', 'Yes'],
+    ['INSTACOAT AQUA II A02G10250 PEACH IH', '4040', '2023-10-03', '2.000', '4548.00', '2.00', '0.40', 'Yes'],
+    ['INSTACOAT AQUA II A02G10251 BEIGE IH', '4040', '2023-10-03', '2.000', '4678.00', '1.00', '0.40', 'Yes'],
+    ['INSTACOAT EHP 250 A10D00428 YELLOW IH', '4040', '2023-10-03', '1.000', '1862.00', '2.00', '0.20', 'Yes'],
+    ['INSTACOAT SOL IC-EN-428 YELLOW IH', '4030', '2023-04-17', '2.000', '3772.00', '2.00', '0.40', 'Yes'],
+    ['INSTACOAT UNIVERSAL A05R03281 WHITE IH', '4040', '2023-10-03', '1.000', '1968.00', '2.00', '0.20', 'Yes'],
+    ['INSTASPHERES TARTARIC ACID CS IH 20-30#', '4030', '2022-10-04', '10.000', '54040.00', '5.00', '2.00', 'Yes'],
+    ['IRON (III) HYDROXIDE POLYMAL COMPLEX IH', '4040', '2023-05-30', '10.000', '3150.00', '10.00', '2.00', 'Yes'],
+    ['ISOPROPYL ALCOHOL BP', '4030', '2022-11-18', '160.000', '22720.00', '160.00', '32.00', 'Yes'],
+    ['ISOPROPYL ALCOHOL BP', '4030', '2023-05-22', '160.000', '21120.00', '320.00', '32.00', 'Yes'],
+    ['ISOPROPYL ALCOHOL BP', '4040', '2023-06-05', '160.000', '21120.00', '480.00', '32.00', 'Yes'],
+    ['ISOPROPYL ALCOHOL BP', '4040', '2023-12-15', '160.000', '24480.00', '640.00', '32.00', 'Yes'],
+    ['ITRACONAZOLE PELLETS 22%W/W IH', '4040', '2022-12-14', '4.000', '17200.00', '2.00', '0.80', 'Yes'],
+    ['ITRACONAZOLE PELLETS 22%W/W IH', '4040', '2022-12-20', '3.000', '15000.00', '6.00', '0.60', 'Yes'],
+    ['ITRACONAZOLE PELLETS 22%W/W IH', '4040', '2022-12-20', '1.000', '5000.00', '9.00', '0.20', 'Yes'],
+    ['L-(+) TARTARIC ACID (87-69-4)', '4050', '2023-08-17', '5.000', '4680.00', '5.00', '1.00', 'Yes'],
+    ['LACTOSE BP', '4040', '2023-04-05', '25.000', '5750.00', '25.00', '5.00', 'Yes'],
+    ['LACTOSE BP (PHARMATOSE 200 M)', '4040', '2023-06-02', '25.000', '9525.00', '25.00', '5.00', 'Yes'],
+    ['LACTOSE BP (PHARMATOSE 200 M)', '4040', '2023-12-26', '25.000', '9525.00', '50.00', '5.00', 'Yes'],
+    ['LACTOSE MONOHYDRATE USPNF (200M)', '4010', '2023-07-11', '100.000', '38100.00', '50.00', '20.00', 'Yes'],
+    ['LIQUID SORBITOL (NON-CRYST) BP(ROQUETTE)', '4040', '2023-02-21', '10.000', '2000.00', '25.00', '2.00', 'Yes'],
+    ['M-ACRY ACID &amp; E-ACRY COPOLY DISP USPNF', '4010', '2023-12-12', '30.000', '33750.00', '30.00', '6.00', 'Yes'],
+    ['M-ACRY ACID &amp;M-METHACRY COPOLY 1:2 USPNF', '4010', '2023-03-15', '20.000', '205800.00', '40.00', '4.00', 'Yes'],
+    ['M-ACRY ACID &amp;M-METHACRY COPOLY 1:2 USPNF', '4010', '2023-10-04', '40.000', '440000.00', '60.00', '8.00', 'Yes'],
+    ['MANNITOL USP PEARLITOL 200SD/SPRAY DRIED', '4040', '2023-01-23', '25.000', '30600.00', '25.00', '5.00', 'Yes'],
+    ['MANNITOL USP PEARLITOL 200SD/SPRAY DRIED', '4040', '2023-08-29', '25.000', '29375.00', '50.00', '5.00', 'Yes'],
+    ['MESALAMINE USP', '4010', '2023-03-17', '50.000', '336481.59', '25.00', '10.00', 'Yes'],
+    ['MESALAMINE USP', '4010', '2023-06-27', '25.000', '167286.84', '75.00', '5.00', 'Yes'],
+    ['MESALAMINE USP', '4010', '2023-12-22', '25.000', '169133.86', '100.00', '5.00', 'Yes'],
+    ['MESALAMINE USP', '4010', '2023-12-22', '25.000', '169133.86', '125.00', '5.00', 'Yes'],
+    ['METFORMIN HYDROCHLORIDE USP', '4040', '2022-12-06', '50.000', '16250.00', '50.00', '10.00', 'Yes'],
+    ['METFORMIN HYDROCHLORIDE USP', '4040', '2023-03-03', '50.000', '14750.00', '100.00', '10.00', 'Yes'],
+    ['METFORMIN HYDROCHLORIDE USP', '4040', '2023-08-29', '50.000', '14250.00', '150.00', '10.00', 'Yes'],
+    ['METFORMIN HYDROCHLORIDE USP', '4040', '2023-11-29', '100.000', '21000.00', '200.00', '20.00', 'Yes'],
+    ['METFORMIN HYDROCHLORIDE USP', '4040', '2023-12-29', '100.000', '20500.00', '300.00', '20.00', 'Yes'],
+    ['METHYLENE CHLORIDE USPNF (EMPROVE GRADE)', '4010', '2022-11-16', '190.000', '85690.00', '190.00', '38.00', 'Yes'],
+    ['METOPROLOL TARTRATE USP', '4010', '2022-08-10', '10.000', '56000.00', '5.00', '2.00', 'Yes'],
+    ['METOPROLOL TARTRATE USP', '4010', '2023-01-25', '50.000', '286230.00', '15.00', '10.00', 'Yes'],
+    ['METOPROLOL TARTRATE USP', '4010', '2023-06-08', '5.000', '26874.25', '65.00', '1.00', 'Yes'],
+    ['METOPROLOL TARTRATE USP', '4010', '2023-08-08', '20.000', '106626.00', '70.00', '4.00', 'Yes'],
+    ['METOPROLOL TARTRATE USP', '4010', '2023-09-12', '40.000', '214786.00', '90.00', '8.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-CEOLUS PH101', '4010', '2023-07-06', '100.000', '65000.00', '20.00', '20.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-CEOLUS PH101', '4010', '2023-09-04', '60.000', '39000.00', '120.00', '12.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-CEOLUS PH101', '4010', '2023-10-13', '40.000', '26000.00', '180.00', '8.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-CEOLUS PH101', '4010', '2023-12-18', '40.000', '26000.00', '220.00', '8.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-CEOLUS PH102', '4010', '2023-07-26', '20.000', '13000.00', '20.00', '4.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-PHARMACEL102', '4040', '2023-04-05', '50.000', '12000.00', '25.00', '10.00', 'Yes'],
+    ['MICROCRYSTALLINE CELL USPNF-PHARMACEL102', '4040', '2023-10-30', '50.000', '12000.00', '75.00', '10.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF (101)', '4010', '2022-12-05', '25.000', '6000.00', '50.00', '5.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF (101)', '4030', '2023-02-07', '25.000', '6000.00', '75.00', '5.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF (101)', '4040', '2023-04-05', '50.000', '12000.00', '100.00', '10.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF (101)', '4010', '2023-05-10', '50.000', '12000.00', '150.00', '10.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF (101)', '4040', '2023-12-21', '50.000', '12000.00', '200.00', '10.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF (102)', '4010', '2023-12-06', '50.000', '12000.00', '50.00', '10.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF C-PH301', '4010', '2022-08-30', '25.000', '36250.00', '25.00', '5.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF C-PH301', '4010', '2022-12-13', '25.000', '36250.00', '50.00', '5.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF CEOLUS', '4030', '2023-04-06', '10.000', '20500.00', '10.00', '2.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF CEOLUS', '4010', '2023-07-26', '10.000', '20500.00', '20.00', '2.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF CEOLUS', '4010', '2023-11-20', '20.000', '41000.00', '30.00', '4.00', 'Yes'],
+    ['MICROCRYSTALLINE CELLULOSE USPNF-PHAR112', '4040', '2023-04-05', '50.000', '20850.00', '50.00', '10.00', 'Yes'],
+    ['N-BUTANOL (71-36-3)', '4050', '2023-03-14', '6.472', '7839.99', '1.62', '1.29', 'Yes'],
+    ['NEBIVOLOL HYDROCHLRIDE IH (DMF GRADE)', '4040', '2023-11-09', '1.000', '180000.00', '1.00', '0.20', 'Yes'],
+    ['NICORANDIL BP', '4030', '2023-06-15', '0.100', '1800.00', '0.90', '0.02', 'Yes'],
+    ['NIFEDIPINE USP', '4010', '2022-11-25', '10.000', '115360.00', '2.00', '2.00', 'Yes'],
+    ['NIFEDIPINE USP', '4010', '2023-07-06', '39.670', '457633.12', '12.00', '7.93', 'Yes'],
+    ['OLMESARTAN MEDOXOMIL USP (D478)', '4010', '2022-10-20', '0.600', '51687.21', '0.60', '0.12', 'Yes'],
+    ['ONDANSETRON HYDROCHLORIDE USP', '4040', '2023-04-03', '1.000', '25000.00', '1.00', '0.20', 'Yes'],
+    ['OPADRY 03F58750 WHITE IH', '4010', '2022-12-13', '5.000', '11705.00', '5.00', '1.00', 'Yes'],
+    ['OPADRY II 85F565342 BROWN IH', '4010', '2023-12-28', '5.000', '11535.00', '5.00', '1.00', 'Yes'],
+    ['ORLISTAT PELLETS 50% W/W IH (18/30#)', '4040', '2022-09-05', '2.000', '59962.00', '3.00', '0.40', 'Yes'],
+    ['OSE-DIALLYAMINO (651324-08-2)', '4050', '2023-08-24', '1.000', '74250.00', '1.00', '0.20', 'Yes'],
+    ['PARACETAMOL BP', '4040', '2023-11-01', '10.000', '4800.00', '25.00', '2.00', 'Yes'],
+    ['PERINDOPRIL ARGININE IH (GLENMARK)', '4040', '2022-10-18', '0.500', '141750.00', '0.20', '0.10', 'Yes'],
+    ['PERINDOPRIL ARGININE IH (GLENMARK)', '4040', '2022-12-06', '0.250', '69125.00', '0.70', '0.05', 'Yes'],
+    ['PERINDOPRIL ARGININE IH (GLENMARK)', '4040', '2023-01-10', '1.000', '248160.00', '0.95', '0.20', 'Yes'],
+    ['PIOGLITAZONE HYDROCHLORIDE USP', '4040', '2022-09-21', '2.000', '15000.00', '2.00', '0.40', 'Yes'],
+    ['PIOGLITAZONE HYDROCHLORIDE USP', '4040', '2023-04-03', '1.000', '7500.00', '4.00', '0.20', 'Yes'],
+    ['PIOGLITAZONE HYDROCHLORIDE USP', '4040', '2023-11-23', '2.000', '20400.00', '5.00', '0.40', 'Yes'],
+    ['PIPERAQUINE PHOSPHATE IH', '4040', '2022-07-05', '5.000', '27500.00', '2.00', '1.00', 'Yes'],
+    ['PIPERAQUINE PHOSPHATE IH', '4040', '2022-11-09', '10.000', '50000.00', '7.00', '2.00', 'Yes'],
+    ['PIPERAQUINE PHOSPHATE IH', '4040', '2023-03-31', '15.000', '71250.00', '17.00', '3.00', 'Yes'],
+    ['PIPERAQUINE PHOSPHATE IH', '4040', '2023-04-26', '10.000', '55000.00', '32.00', '2.00', 'Yes'],
+    ['PLASACRYL HTP20 IH', '4010', '2023-07-28', '5.000', '25350.00', '50.00', '1.00', 'Yes'],
+    ['PLASACRYL HTP20 IH', '4010', '2023-08-08', '5.000', '25350.00', '55.00', '1.00', 'Yes'],
+    ['POLYETHYLENE OXIDE USPNF (WSR COAGULANT)', '4010', '2023-05-16', '9.080', '167099.24', '4.54', '1.82', 'Yes'],
+    ['PREGABALIN PH. EUR', '4040', '2022-12-30', '2.000', '34000.00', '5.00', '0.40', 'Yes'],
+    ['PREGABALIN PH. EUR', '4040', '2023-04-03', '5.000', '85000.00', '7.00', '1.00', 'Yes'],
+    ['PREGABALIN PH. EUR', '4040', '2023-06-02', '3.000', '51000.00', '12.00', '0.60', 'Yes'],
+    ['PREGELATINISED STARCH USPNF (PC-10)', '4010', '2023-03-01', '20.000', '18800.00', '20.00', '4.00', 'Yes'],
+    ['PROCHLORPERAZINE MALEATE USP', '4010', '2022-12-28', '1.000', '118410.00', '5.00', '0.20', 'Yes'],
+    ['PROPRANOLOL HYDROCHLORIDE USP (MANKIND)', '4010', '2023-05-10', '25.000', '310462.50', '5.00', '5.00', 'Yes'],
+    ['PROPYLENE CARBONATE USPNF', '4030', '2022-06-09', '2.500', '11775.00', '2.50', '0.50', 'Yes'],
+    ['PYRONARIDINE TETRAPHOSPHATE IH', '4010', '2023-08-18', '1.500', '112500.00', '1.00', '0.30', 'Yes'],
+    ['PYRONARIDINE TETRAPHOSPHATE IH', '4010', '2023-08-18', '3.000', '225000.00', '2.50', '0.60', 'Yes'],
+    ['RACECADOTRIL PH. EUR. (MICRONISED)', '4040', '2023-01-17', '0.500', '19475.00', '0.50', '0.10', 'Yes'],
+    ['RAMIPRIL BP', '4040', '2023-12-05', '1.000', '45500.00', '1.00', '0.20', 'Yes'],
+    ['RIVAROXABAN EP', '4030', '2022-05-04', '0.700', '26600.00', '0.30', '0.14', 'Yes'],
+    ['RIVAROXABAN EP', '4030', '2022-10-18', '1.000', '38000.00', '1.00', '0.20', 'Yes'],
+    ['RIVAROXABAN IH', '4010', '2022-10-20', '5.000', '447315.00', '1.00', '1.00', 'Yes'],
+    ['ROSUVASTATIN CALCIUM PHEUR', '4040', '2022-07-27', '0.500', '27500.00', '3.00', '0.10', 'Yes'],
+    ['SACUBITRIL-VALSARTAN 3NA COMPLEX IH', '4040', '2022-09-23', '2.000', '485000.00', '2.00', '0.40', 'Yes'],
+    ['SACUBITRIL-VALSARTAN 3NA COMPLEX IH', '4040', '2023-08-25', '1.000', '89085.00', '4.00', '0.20', 'Yes'],
+    ['SALICYLIC ACID USP', '4040', '2023-09-21', '1.000', '5000.00', '1.00', '0.20', 'Yes'],
+    ['SALICYLIC ACID USP', '4040', '2023-12-27', '2.000', '10000.00', '2.00', '0.40', 'Yes'],
+    ['SEVELAMER HYDROCHLORIDE IH', '4010', '2023-09-25', '30.000', '322023.00', '40.00', '6.00', 'Yes'],
+    ['SEVELAMER HYDROCHLORIDE IH', '4010', '2023-12-06', '40.000', '328000.00', '70.00', '8.00', 'Yes'],
+    ['SILODOSIN IH (METROCHEM)', '4030', '2022-09-20', '0.200', '45000.00', '0.30', '0.04', 'Yes'],
+    ['SILODOSIN IH (METROCHEM)', '4030', '2023-03-27', '0.500', '112500.00', '0.50', '0.10', 'Yes'],
+    ['SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)', '4040', '2022-11-18', '5.000', '140000.00', '5.00', '1.00', 'Yes'],
+    ['SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)', '4040', '2022-12-19', '5.000', '140000.00', '10.00', '1.00', 'Yes'],
+    ['SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)', '4030', '2023-01-03', '3.000', '84000.00', '15.00', '0.60', 'Yes'],
+    ['SITAGLIPTIN PHOSPHATE USP (MONOHYDRATE)', '4040', '2023-10-09', '10.000', '180000.00', '18.00', '2.00', 'Yes'],
+    ['SODIUM ALGINATE USPNF (MANUCOL LKX)', '4010', '2023-01-20', '50.000', '328900.00', '25.00', '10.00', 'Yes'],
+    ['SODIUM ALGINATE USPNF (MANUCOL LKX)', '4010', '2023-03-16', '25.000', '164450.00', '75.00', '5.00', 'Yes'],
+    ['SODIUM BICARBONATE USP (EMNAR)', '4010', '2022-07-07', '500.000', '1922500.00', '150.00', '100.00', 'Yes'],
+    ['SODIUM CHLORIDE BP (EMPROVE GRADE)', '4030', '2022-12-30', '1.000', '5909.00', '2.00', '0.20', 'Yes'],
+    ['SODIUM METHYL HYDROXYBENZOATE BP', '4040', '2023-01-30', '4000.000', '5000.00', '2000.00', '800.00', 'Yes'],
+    ['SODIUM STEARYL FUMARATE USPNF (PRUV)', '4030', '2023-03-02', '5.000', '77500.00', '5.00', '1.00', 'Yes'],
+    ['SPIRAMYCIN PH. EUR.', '4040', '2022-06-22', '1.000', '33814.67', '1.00', '0.20', 'Yes'],
+    ['SPIRAMYCIN PH. EUR.', '4040', '2022-06-22', '1.000', '33814.66', '2.00', '0.20', 'Yes'],
+    ['SUCRALOSE USPNF', '4040', '2023-11-29', '1.000', '3560.00', '5.00', '0.20', 'Yes'],
+    ['SUCROSE BP (PHA. GRD. SU. PULV.)', '4040', '2023-12-19', '100.000', '5000.00', '50.00', '20.00', 'Yes'],
+    ['SUGAR SPHERES USPNF (SUGLETS® 25#30)', '4010', '2023-09-12', '50.000', '126350.00', '50.00', '10.00', 'Yes'],
+    ['SULFADOXINE PHEUR', '4040', '2023-03-01', '10.000', '200000.00', '10.00', '2.00', 'Yes'],
+    ['SULFURYL CHLORIDE (7791-25-5)', '4050', '2023-09-25', '3.332', '2071.17', '2.50', '0.67', 'Yes'],
+    ['TELMISARTAN USP', '4040', '2022-08-08', '2.000', '33440.00', '2.00', '0.40', 'Yes'],
+    ['TELMISARTAN USP', '4040', '2022-12-19', '5.000', '89793.00', '4.00', '1.00', 'Yes'],
+    ['TELMISARTAN USP', '4040', '2023-04-07', '5.000', '90200.00', '9.00', '1.00', 'Yes'],
+    ['TELMISARTAN USP', '4010', '2023-12-12', '4.000', '49950.00', '14.00', '0.80', 'Yes'],
+    ['TENELIGLIPTIN HYDROBROMIDE HYDRATE IH', '4030', '2023-01-06', '1.000', '12050.00', '1.00', '0.20', 'Yes'],
+    ['TENELIGLIPTIN HYDROBROMIDE HYDRATE IH', '4040', '2023-04-21', '2.000', '23000.00', '2.00', '0.40', 'Yes'],
+    ['TERAZOSIN HYDROCHLORIDE USP-BIOINDUSTRIA', '4010', '2022-10-11', '1.000', '168379.60', '2.00', '0.20', 'Yes'],
+    ['TERAZOSIN HYDROCHLORIDE USP-BIOINDUSTRIA', '4010', '2023-04-04', '2.000', '357609.01', '3.00', '0.40', 'Yes'],
+    ['THIOCOLCHICOSIDE IH', '4040', '2023-02-10', '0.100', '77500.00', '0.10', '0.02', 'Yes'],
+    ['TICAGRELOR EP (FORM II)', '4030', '2022-04-26', '0.750', '78750.00', '0.75', '0.15', 'Yes'],
+    ['TOLPERISONE HYDROCHLORIDE JP', '4040', '2023-10-25', '1.000', '2000.00', '5.00', '0.20', 'Yes'],
+    ['TORSEMIDE USP', '4040', '2023-03-31', '1.000', '37000.00', '0.50', '0.20', 'Yes'],
+    ['TRAVOPROST USP', '4040', '2022-11-22', '2.000', '210000.00', '1.00', '0.40', 'Yes'],
+    ['TRAVOPROST USP', '4040', '2023-07-24', '0.200', '21000.00', '3.00', '0.04', 'Yes'],
+    ['TRAVOPROST USP', '4040', '2023-08-30', '1.000', '105000.00', '3.20', '0.20', 'Yes'],
+    ['TRIAMCINOLONE HEXACETONIDE USP', '4030', '2022-10-10', '0.050', '50000.00', '0.50', '0.01', 'Yes'],
+    ['TRIMETHYL ORTHOFORMATE (149-73-5)', '4050', '2022-06-07', '5.000', '9520.00', '5.00', '1.00', 'Yes'],
+    ['VALSARTAN USP', '4010', '2023-11-23', '10.000', '87907.01', '3.00', '2.00', 'Yes'],
+    ['VALSARTAN USP', '4010', '2023-11-23', '3.000', '26371.51', '13.00', '0.60', 'Yes'],
+    ['VARDENAFIL HCL TRIHYDRATE BP', '4040', '2022-11-22', '0.250', '22000.00', '0.25', '0.05', 'Yes'],
+    ['VARENICLINE TARTRATE IH', '4010', '2022-08-09', '0.100', '487062.10', '0.15', '0.02', 'Yes'],
+    ['VERAPAMIL HYDROCHLORIDE \nUSP', '4010', '2022-05-02', '16.720', '178462.59', '120.00', '3.34', 'Yes'],
+    ['VILDAGLIPTIN IH', '4040', '2023-02-14', '1.000', '8000.00', '1.50', '0.20', 'Yes'],
+    ['VILDAGLIPTIN IH', '4040', '2023-03-15', '3.000', '24000.00', '2.50', '0.60', 'Yes'],
+    ['VILDAGLIPTIN IH', '4040', '2023-07-03', '5.000', '40000.00', '5.50', '1.00', 'Yes']
+];
+
+// Data for charts
+const riskData = {
+    categories: ['High', 'Medium', 'Low', 'Expired', 'NA'],
+    values: [1.95, 2.61, 4.16, 0.32, 0.77],
+    colors: ['#EF4444', '#F59E0B', '#10B981', '#6B7280', '#D1D5DB']
+};
+
+const plantData = {
+    plants: ['4010', '4030', '4040', '4050'],
+    values: [18537110.66, 1673576.31, 6865114.7, 224211.31],
+    colors: ['#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B']
+};
+
+const materialsData = {
+    materials: [
+        'DILTIAZEM HYDROCHLORIDE USP',
+        'SODIUM BICARBONATE USP',
+        'CLOMIPHENE CITRATE USP',
+        'DAPAGLIFLOZIN IH',
+        'MESALAMINE USP',
+        'BEMPEDOIC ACID IH',
+        'AZILSARTAN MEDOXOMIL',
+        'METOPROLOL TARTRATE USP',
+        'SEVELAMER HYDROCHLORIDE',
+        'M-ACRY ACID COPOLY',
+        'DEXLANSOPRAZOLE',
+        'SACUBITRIL-VALSARTAN',
+        'NIFEDIPINE USP',
+        'SITAGLIPTIN PHOSPHATE',
+        'TERAZOSIN HYDROCHLORIDE'
+    ],
+    values: [4942035, 1922500, 880782.62, 846000, 842036.15, 840000, 812000, 
+             690516.25, 650023, 645800, 611280, 574085, 572993.12, 544000, 525988.61],
+    colors: Array(15).fill('#2563eb')
+};
+
+// Tooltip functions
+function showTooltip(tooltipEl, x, y, content) {
+    tooltipEl.innerHTML = content;
+    tooltipEl.classList.add('active');
+    
+    tooltipEl.style.display = 'block';
+    const tooltipRect = tooltipEl.getBoundingClientRect();
+    const tooltipWidth = tooltipRect.width;
+    const tooltipHeight = tooltipRect.height;
+    
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    let left = x + 15;
+    let top = y + 15;
+    
+    if (left + tooltipWidth > viewportWidth - 20) {
+        left = x - tooltipWidth - 15;
+    }
+    
+    if (top + tooltipHeight > viewportHeight - 20) {
+        top = y - tooltipHeight - 15;
+    }
+    
+    if (left < 20) {
+        left = 20;
+    }
+    
+    if (top < 20) {
+        top = y + 15;
+        if (top + tooltipHeight > viewportHeight - 20) {
+            top = viewportHeight - tooltipHeight - 20;
+        }
+    }
+    
+    tooltipEl.style.left = left + 'px';
+    tooltipEl.style.top = top + 'px';
+}
+
+function hideTooltip(tooltipEl) {
+    tooltipEl.classList.remove('active');
+}
+
+// Draw Risk Exposure Chart
+function drawRiskChart() {
+    const canvas = document.getElementById('riskCanvas');
+    const container = canvas.parentElement;
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    
+    const ctx = canvas.getContext('2d');
+    const margin = { top: 60, right: 40, bottom: 80, left: 80 };
+    const chartWidth = canvas.width - margin.left - margin.right;
+    const chartHeight = canvas.height - margin.top - margin.bottom;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Title
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = '#1a202c';
+    ctx.textAlign = 'center';
+    ctx.fillText('Inventory Risk Exposure', canvas.width / 2, 30);
+    
+    // Find max value
+    const maxValue = Math.max(...riskData.values);
+    const barWidth = chartWidth / riskData.categories.length * 0.7;
+    const spacing = chartWidth / riskData.categories.length;
+    
+    // Draw grid lines and y-axis labels
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#718096';
+    ctx.textAlign = 'right';
+    
+    for (let i = 0; i <= 5; i++) {
+        const value = (maxValue / 5) * i;
+        const y = margin.top + chartHeight - (chartHeight / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(margin.left, y);
+        ctx.lineTo(canvas.width - margin.right, y);
+        ctx.stroke();
+        ctx.fillText(`₹${value.toFixed(2)}Cr`, margin.left - 10, y + 4);
+    }
+    
+    // Draw axes
+    ctx.strokeStyle = '#718096';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + chartHeight);
+    ctx.lineTo(canvas.width - margin.right, margin.top + chartHeight);
+    ctx.stroke();
+    
+    // Axis labels
+    ctx.font = 'bold 13px Arial';
+    ctx.fillStyle = '#4a5568';
+    ctx.textAlign = 'center';
+    ctx.fillText('Risk Level', canvas.width / 2, canvas.height - 20);
+    
+    ctx.save();
+    ctx.translate(20, canvas.height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Value (₹ Crores)', 0, 0);
+    ctx.restore();
+    
+    // Draw bars
+    const barData = [];
+    riskData.categories.forEach((category, i) => {
+        const value = riskData.values[i];
+        const barHeight = (value / maxValue) * chartHeight;
+        const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+        const y = margin.top + chartHeight - barHeight;
+        
+        // Bar
+        ctx.fillStyle = riskData.colors[i];
+        ctx.fillRect(x, y, barWidth, barHeight);
+        
+        // Category label
+        ctx.font = '12px Arial';
+        ctx.fillStyle = '#2d3748';
+        ctx.textAlign = 'center';
+        ctx.fillText(category, x + barWidth / 2, margin.top + chartHeight + 20);
+        
+        // Value on top of bar
+        ctx.font = 'bold 11px Arial';
+        ctx.fillStyle = '#1a202c';
+        ctx.fillText(`₹${value.toFixed(2)}Cr`, x + barWidth / 2, y - 5);
+        
+        barData.push({ x, y, width: barWidth, height: barHeight, category, value, color: riskData.colors[i] });
+    });
+    
+    // Tooltips
+    const tooltip = document.getElementById('riskTooltip');
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        
+        let found = false;
+        for (const bar of barData) {
+            if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                const content = `
+                    <div class="tooltip-title">${bar.category} Risk</div>
+                    <div class="tooltip-row">
+                        <span class="tooltip-label">Value:</span>
+                        <span class="tooltip-value">₹${bar.value.toFixed(2)} Crores</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="tooltip-label">Percentage:</span>
+                        <span class="tooltip-value">${((bar.value / riskData.values.reduce((a,b) => a+b)) * 100).toFixed(1)}%</span>
+                    </div>
+                `;
+                showTooltip(tooltip, e.clientX, e.clientY, content);
+                found = true;
+                break;
+            }
+        }
+        if (!found) hideTooltip(tooltip);
+    });
+    canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+}
+
+// Draw Plant Chart
+function drawPlantChart() {
+    const canvas = document.getElementById('plantCanvas');
+    const container = canvas.parentElement;
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    
+    const ctx = canvas.getContext('2d');
+    const margin = { top: 60, right: 40, bottom: 80, left: 100 };
+    const chartWidth = canvas.width - margin.left - margin.right;
+    const chartHeight = canvas.height - margin.top - margin.bottom;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Title
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = '#1a202c';
+    ctx.textAlign = 'center';
+    ctx.fillText('Plant-wise Avoidable Procurement Value', canvas.width / 2, 30);
+    
+    const maxValue = Math.max(...plantData.values);
+    const barWidth = chartWidth / plantData.plants.length * 0.7;
+    const spacing = chartWidth / plantData.plants.length;
+    
+    // Grid and axes
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#718096';
+    ctx.textAlign = 'right';
+    
+    for (let i = 0; i <= 5; i++) {
+        const value = (maxValue / 5) * i;
+        const y = margin.top + chartHeight - (chartHeight / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(margin.left, y);
+        ctx.lineTo(canvas.width - margin.right, y);
+        ctx.stroke();
+        ctx.fillText(`₹${(value/10000000).toFixed(1)}Cr`, margin.left - 10, y + 4);
+    }
+    
+    ctx.strokeStyle = '#718096';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + chartHeight);
+    ctx.lineTo(canvas.width - margin.right, margin.top + chartHeight);
+    ctx.stroke();
+    
+    // Axis labels
+    ctx.font = 'bold 13px Arial';
+    ctx.fillStyle = '#4a5568';
+    ctx.textAlign = 'center';
+    ctx.fillText('Plant Code', canvas.width / 2, canvas.height - 20);
+    
+    ctx.save();
+    ctx.translate(25, canvas.height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Avoidable Value (₹)', 0, 0);
+    ctx.restore();
+    
+    // Draw bars
+    const barData = [];
+    plantData.plants.forEach((plant, i) => {
+        const value = plantData.values[i];
+        const barHeight = (value / maxValue) * chartHeight;
+        const x = margin.left + i * spacing + (spacing - barWidth) / 2;
+        const y = margin.top + chartHeight - barHeight;
+        
+        ctx.fillStyle = plantData.colors[i];
+        ctx.fillRect(x, y, barWidth, barHeight);
+        
+        ctx.font = '13px Arial';
+        ctx.fillStyle = '#2d3748';
+        ctx.textAlign = 'center';
+        ctx.fillText(plant, x + barWidth / 2, margin.top + chartHeight + 20);
+        
+        ctx.font = 'bold 11px Arial';
+        ctx.fillStyle = '#1a202c';
+        ctx.fillText(`₹${(value/10000000).toFixed(2)}Cr`, x + barWidth / 2, y - 5);
+        
+        barData.push({ x, y, width: barWidth, height: barHeight, plant, value });
+    });
+    
+    const tooltip = document.getElementById('plantTooltip');
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        
+        let found = false;
+        for (const bar of barData) {
+            if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                const content = `
+                    <div class="tooltip-title">Plant ${bar.plant}</div>
+                    <div class="tooltip-row">
+                        <span class="tooltip-label">Avoidable Value:</span>
+                        <span class="tooltip-value">₹${bar.value.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="tooltip-label">In Crores:</span>
+                        <span class="tooltip-value">₹${(bar.value/10000000).toFixed(2)} Cr</span>
+                    </div>
+                `;
+                showTooltip(tooltip, e.clientX, e.clientY, content);
+                found = true;
+                break;
+            }
+        }
+        if (!found) hideTooltip(tooltip);
+    });
+    canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+}
+
+// Draw Materials Chart (Horizontal)
+function drawMaterialsChart() {
+    const canvas = document.getElementById('materialsCanvas');
+    const container = canvas.parentElement;
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    
+    const ctx = canvas.getContext('2d');
+    const margin = { top: 60, right: 80, bottom: 60, left: 280 };
+    const chartWidth = canvas.width - margin.left - margin.right;
+    const chartHeight = canvas.height - margin.top - margin.bottom;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Title
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = '#1a202c';
+    ctx.textAlign = 'center';
+    ctx.fillText('Top Materials by Avoidable Value', canvas.width / 2, 30);
+    
+    const maxValue = Math.max(...materialsData.values);
+    const barHeight = chartHeight / materialsData.materials.length * 0.7;
+    const spacing = chartHeight / materialsData.materials.length;
+    
+    // Grid
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    ctx.font = '11px Arial';
+    ctx.fillStyle = '#718096';
+    ctx.textAlign = 'center';
+    
+    for (let i = 0; i <= 5; i++) {
+        const value = (maxValue / 5) * i;
+        const x = margin.left + (chartWidth / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(x, margin.top);
+        ctx.lineTo(x, margin.top + chartHeight);
+        ctx.stroke();
+        ctx.fillText(`₹${(value/100000).toFixed(1)}L`, x, margin.top + chartHeight + 20);
+    }
+    
+    ctx.strokeStyle = '#718096';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + chartHeight);
+    ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight);
+    ctx.stroke();
+    
+    // Draw bars
+    const barData = [];
+    materialsData.materials.forEach((material, i) => {
+        const value = materialsData.values[i];
+        const barWidth = (value / maxValue) * chartWidth;
+        const x = margin.left;
+        const y = margin.top + i * spacing + (spacing - barHeight) / 2;
+        
+        ctx.fillStyle = materialsData.colors[i];
+        ctx.fillRect(x, y, barWidth, barHeight);
+        
+        // Material name
+        ctx.font = '11px Arial';
+        ctx.fillStyle = '#2d3748';
+        ctx.textAlign = 'right';
+        const truncated = material.length > 35 ? material.substring(0, 32) + '...' : material;
+        ctx.fillText(truncated, margin.left - 10, y + barHeight / 2 + 4);
+        
+        // Value
+        ctx.font = 'bold 10px Arial';
+        ctx.fillStyle = '#1a202c';
+        ctx.textAlign = 'left';
+        ctx.fillText(`₹${(value/100000).toFixed(2)}L`, x + barWidth + 5, y + barHeight / 2 + 4);
+        
+        barData.push({ x, y, width: barWidth, height: barHeight, material, value });
+    });
+    
+    const tooltip = document.getElementById('materialsTooltip');
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        
+        let found = false;
+        for (const bar of barData) {
+            if (mouseX >= bar.x && mouseX <= bar.x + bar.width &&
+                mouseY >= bar.y && mouseY <= bar.y + bar.height) {
+                const content = `
+                    <div class="tooltip-title">${bar.material}</div>
+                    <div class="tooltip-row">
+                        <span class="tooltip-label">Avoidable Value:</span>
+                        <span class="tooltip-value">₹${bar.value.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div class="tooltip-row">
+                        <span class="tooltip-label">In Lakhs:</span>
+                        <span class="tooltip-value">₹${(bar.value/100000).toFixed(2)} Lakhs</span>
+                    </div>
+                `;
+                showTooltip(tooltip, e.clientX, e.clientY, content);
+                found = true;
+                break;
+            }
+        }
+        if (!found) hideTooltip(tooltip);
+    });
+    canvas.addEventListener('mouseleave', () => hideTooltip(tooltip));
+}
+
+// Populate table with all data
+function populateTable() {
+    const tbody = document.querySelector('#procurementTable tbody');
+    tableData.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    console.log(`Loaded ${tableData.length} rows into table`);
+}
+
+// Initialize
+window.addEventListener('load', () => {
+    drawRiskChart();
+    drawPlantChart();
+    drawMaterialsChart();
+    populateTable();
+});
+
+window.addEventListener('resize', () => {
+    drawRiskChart();
+    drawPlantChart();
+    drawMaterialsChart();
+});
+</script>
+
+</body>
+</html>
